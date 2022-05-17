@@ -1,0 +1,323 @@
+// very ugly
+// todo: rewrite
+
+$triangle-size: 6px;
+$secondarymenu-overlay-size: 1px;
+$minimum-menu-width: 10rem;
+
+@mixin make_dropdown($multilevel: false) {
+  display: none;
+  flex-direction: column;
+  background-color: var(--db-background-color);
+  background-image: var(--db-surface-overlay);
+  outline: 1px solid var(--db-border-color);
+  box-shadow:
+    -.1rem -.1rem .4rem var(--db-surface-shadow-color),
+    .2rem .2rem .4rem var(--db-surface-shadow-color);
+  border-radius: 1px 1px $border-radius-object $border-radius-object;
+  min-width: $minimum-menu-width;
+  position: absolute;
+  top: calc( var(--db-header-height) - ( ( var(--db-header-height) - 100% ) / 2 ) - 1px );
+  padding: .25rem 0;
+  font-weight: normal;
+  white-space: nowrap;
+  
+  @if $multilevel {
+    left: 0;
+    right: unset;
+  } @else {
+    left: -1rem;
+    right: unset;
+  }
+
+  .c-navmenu__item {
+    line-height: 3rem;
+    font-weight: normal;
+    border-radius: 1px;
+    text-align: left;
+    color: var(--db-text-color-active);
+
+    .c-navmenu__text {
+      display: block;
+      padding: 0 1rem;
+    }
+
+    @if $multilevel {
+      &:hover > .c-navmenu__text {
+        background-color: var(--db-control-color);
+        color: var(--db-control-text-color);
+      }
+    } @else {
+      .c-navmenu__text:hover  {
+        background-color: var(--db-control-color);
+        color: var(--db-control-text-color);
+      }
+    }
+  }
+
+}
+
+@mixin make_dropdown_level2() {
+  //border-top-width: 1px;
+  border-radius: $border-radius-object;
+  top: -.25rem;
+  position: absolute;
+
+  left: calc(100% - #{$secondarymenu-overlay-size});
+}
+
+@mixin make_horizon() {
+  display: flex;
+  flex-direction: row;
+  border: none;
+  outline: none;
+  background: none;
+  background-color: transparent;
+  font-size: inherit;
+  box-shadow: none;
+  position: initial;
+  padding: 0;
+  border-radius: 0;
+  text-align: center;
+
+  > .c-navmenu__item {
+    text-align: center;
+    //min-width: $minimum-menu-width * .618;
+    font-weight: bold;
+    line-height: var(--db-header-height);
+    color: var(--db-text-color-inactive);
+    position: relative;
+
+    &:hover {
+      > .c-navmenu__text {
+        background-color: unset;
+        color: var(--db-text-color-important);
+
+        &:not(:only-child) {
+          @include make_triangle();
+        }
+      }
+
+      > .c-navmenu__menu {
+        display: flex;
+      }
+    }
+  }
+
+}
+
+@mixin make_triangle() {
+  position: relative;
+
+  &::before {
+    content: '';
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0 $triangle-size $triangle-size $triangle-size;
+    border-color: transparent transparent var(--db-background-color) transparent;
+    position: absolute;
+    bottom: calc( ( ( var(--db-header-height) - 100% ) / -2 ) + 1px);
+    z-index: 999;
+    left: calc( 50% - #{$triangle-size} );
+  }
+
+  &::after {
+    content: '';
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0 ($triangle-size + 1) ($triangle-size + 1) ($triangle-size + 1);
+    border-color: transparent transparent var(--db-border-color) transparent;
+    position: absolute;
+    bottom: calc( ( ( var(--db-header-height) - 100% ) / -2 ) + 1px);
+    z-index: 998;
+    left: calc( 50% - #{$triangle-size} - 1px );
+  }
+
+}
+
+@mixin make_rightangle() {
+  position: relative;
+  padding-right: 2rem;
+
+  &::after {
+    @include fontawesome-text;
+    content: '\f105';
+    position: absolute;
+    right: 0;
+    width: 2rem;
+    text-align: center;
+  }
+
+}
+
+.c-navmenu {
+  list-style: none;
+  padding: 0;
+  position: relative;
+  user-select: none;
+  line-height: 32px;
+
+  > .c-navmenu__menu {
+    @include make_dropdown(false);
+    > .c-navmenu__item {
+      .c-navmenu__menu {
+        .c-navmenu__item {
+          > a {
+            padding: 0 2rem;
+          }
+          .c-navmenu__menu {
+            .c-navmenu__item {
+              > a {
+                padding: 0 3rem;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  &:focus-within {
+    > .c-navmenu__menu {
+      display: flex;
+    }
+
+    > .c-navmenu__button {
+      @include make_triangle();
+      border-color: var(--db-border-color);
+    }
+  }
+
+  @at-root div#{&}__text {
+    color: var(--db-text-color-inactive);
+  }
+
+  &--responsive {
+    left: 0;
+
+    @media #{$large-screen} {
+  
+      .c-navmenu__button {
+        display: none;
+      }
+  
+      > .c-navmenu__menu {
+        @include make_horizon();
+        left: 0;
+  
+        > .c-navmenu__item {
+
+          .c-navmenu__item {
+            position: relative;
+            
+            &:hover{
+              > .c-navmenu__menu {
+                display: flex;
+              }
+            }
+          }
+  
+          .c-navmenu__menu {
+            @include make_dropdown(true);
+  
+            .c-navmenu__text:not(:only-child) {
+              @include make_rightangle();
+            }
+  
+            .c-navmenu__menu {
+              @include make_dropdown_level2();
+              a {
+                padding: 0 1rem !important;
+              }
+            }
+  
+          }
+        }
+      }
+    }
+  }
+
+  &__divider {
+    border-top: 1px solid var(--db-border-color);
+    margin: .25rem .5rem;
+  }
+
+  &--right &__menu {
+    left: unset !important;
+    right: -1rem;
+  }
+
+  &--right.c-navmenu--responsive &__menu {
+    right: 0 !important;
+  }
+
+  &--right &__menu &__menu {
+    @media #{$large-screen} {
+      .c-navmenu__menu {
+        right: calc(100% - #{$secondarymenu-overlay-size}) !important;
+      }
+    }
+  }
+
+}
+
+.c-navbutton {
+  border-radius: $border-radius-object;
+  border: 1px solid transparent;
+  text-align: center;
+  align-items: center;
+  padding: 0;
+  width: $header-object-size;
+  height: $header-object-size;
+  line-height: $header-object-size;
+  background-color: transparent;
+  color: var(--db-text-color-inactive);
+  outline: 0;
+  margin-right: .25rem;
+
+  &:hover {
+    border-color: var(--db-border-color);
+    color: var(--db-text-color-active);
+    background-color: var(--db-background-hover-color);
+  }
+  &:active {
+    background-image: var(--db-surface-overlay);
+  }
+}
+
+
+.c-search {
+  display: flex;
+
+  &__textbox {
+    width: 0px;
+    outline: none;
+    border-width: 0 0 1px 0;  
+  }
+
+  &__expand {
+    overflow: hidden;
+  }
+
+  &__go {
+    display: none;
+  }
+
+  &:focus-within {
+    > .c-search__textbox {
+      width: 8rem;
+    }
+    > .c-search__expand {
+      display: none;
+    }
+    > .c-search__go {
+      display: initial;
+    }
+  }
+
+  label {
+    display: block;
+  }
+}

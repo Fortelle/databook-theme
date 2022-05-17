@@ -1,0 +1,29 @@
+{%- assign key = include.key -%}
+{%- assign code = include.language | default: page.language | default: site.language -%}
+{%- assign primary = code | split: "-" | first -%}
+{%- assign debug = "<span class="h-debug">" | append: key | append: "</span>" -%}
+
+{%- if include.is_plural or include.count > 1 -%}
+  {%- assign plural_key = key | append: "_plural" -%}
+  {%- assign text = site.data.databook.locale.[code].[plural_key]
+    | default: site.data.databook.locale.[code].[key]
+    | default: site.data.databook.locale.[primary].[plural_key]
+    | default: site.data.databook.locale.[primary].[key]
+    | default: include.default
+    | default: debug
+    -%}
+{%- else -%}
+  {%- assign text = site.data.databook.locale.[code].[key]
+    | default: site.data.databook.locale.[primary].[key]
+    | default: include.default
+    | default: debug
+    -%}
+{%- endif -%}
+
+{%- assign text = text
+  | replace: ":param1", include.param1
+  | replace: ":param2", include.param2
+  | replace: ":param3", include.param3
+  -%}
+
+{{- text -}}

@@ -1,0 +1,27 @@
+.c-list {
+  border-collapse: collapse;
+  width: 100%;
+  margin-bottom: 1rem;
+  color: var(--db-text-color-active);
+  vertical-align: top;
+  border-color: var(--db-border-color);
+
+  td {
+    padding: .5rem .5rem;
+
+    &:not(:first-child) {
+      text-align: center;
+    }
+  }
+
+  tr {
+    &:not(:last-child) {
+      border-bottom: 1px solid var(--db-border-color);
+    }
+
+    &:hover {
+      background-color: var(--db-highlight-color-hover);
+    }
+
+  }
+}

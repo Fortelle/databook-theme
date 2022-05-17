@@ -1,0 +1,10 @@
+.c-notification {
+  background-color: var(--side-color);
+  border-bottom: 1px solid var(--border-color);
+  padding: 0.5rem 1rem;
+
+  @media print {
+    display: none;
+  }
+
+}

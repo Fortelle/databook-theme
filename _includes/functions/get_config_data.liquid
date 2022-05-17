@@ -1,0 +1,23 @@
+{%- assign return = nil -%}
+{%- assign key = include.key -%}
+{%- assign key_id = key | append: "_id" -%}
+
+{%- if page[key].first -%}
+  {%- assign return = page[key] -%}
+{%- elsif page[key] == false -%}
+{%- elsif page[key_id] != nil -%}
+  {%- assign id = page[key_id] -%}
+  {%- assign return = site.data[id] -%}
+{%- elsif layout[key].first -%}
+  {%- assign return = layout[key] -%}
+{%- elsif layout[key] == false -%}
+{%- elsif layout[key_id] != nil -%}
+  {%- assign id = layout[key_id] -%}
+  {%- assign return = site.data[id] -%}
+{%- elsif site[key].first -%}
+  {%- assign return = site.sidebar -%}
+{%- elsif site[key] == false -%}
+{%- elsif site[key_id] != nil -%}
+  {%- assign id = site[key_id] -%}
+  {%- assign return = site.data[id] -%}
+{%- endif -%}

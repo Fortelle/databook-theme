@@ -1,0 +1,9 @@
+{%- if include.tag -%}
+  /tags/#!/{{- include.tag | url_encode -}}
+{%- elsif include.category -%}
+  /categories/#!/{{- include.category | url_encode -}}
+{%- elsif include.archive -%}
+  /archive/#!/{{- include.archive | url_encode -}}
+{%- elsif include.author -%}
+  /authors/#!/{{- include.author | url_encode -}}
+{%- endif -%}

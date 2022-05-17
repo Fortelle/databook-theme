@@ -1,0 +1,249 @@
+.c-blog-list {
+  
+  &__item {
+    padding-bottom: 2rem;
+    color: var(--db-text-color-active);
+    display: grid;
+
+    &:not(:first-child) {
+      padding-top: 2rem;
+    }
+    &:not(:last-child) {
+      border-bottom: 1px solid var(--db-border-color);
+    }
+  }
+
+  &__title {
+    margin: 1rem 0;
+    grid-column: 1 / span 2;
+    @media #{$medium-screen} {
+      grid-column: 1;
+    }
+  }
+
+  &__link {
+    font-size: 2rem;
+    text-decoration: none;
+    color: inherit !important;
+    vertical-align: middle;
+    font-weight: bold;
+  }
+
+  &__content {
+    margin-top: 0.6rem;
+    margin-bottom: 0.6rem;
+    color: var(--db-text-color-active);
+    line-height: 1.5rem;
+    grid-column: 1;
+  }
+
+  &__meta {
+    font-size: small;
+    color: var(--db-text-color-inactive);
+    grid-column: 1 / span 2;
+    @media #{$medium-screen} {
+      grid-column: 1;
+    }
+  }
+
+  &__metaitem {
+    display: inline-block;
+
+    &:not(:first-child) {
+
+      &::before{
+        content: '·';
+        margin: 0 4px;
+
+      }
+    }
+  }
+
+  &__badge {
+    --db-private-color: gray;
+    border: 1px solid var(--db-private-color);
+    color: var(--db-private-color);
+    border-radius: $border-radius-object;
+    padding: .25rem;
+    margin-right: .5rem;
+    font-size: .8rem;
+    vertical-align: middle;
+    user-select: none;
+
+    &--sticky{
+      --db-private-color: red;
+    }
+    &--featured{
+      --db-private-color: green;
+    }
+  }
+
+  &__thumbnail {
+    grid-column: 2;
+    grid-row: 3;
+    width: 8rem;
+    max-height: 12rem;
+    display: grid;
+    place-content: center;
+
+    @media #{$wide-screen} {
+      grid-row: 1 / span 4;
+      width: 12rem;
+    }
+
+    img {
+      max-width: 100%;
+      max-height: 100%;
+    }
+  }
+}
+
+
+.c-blog-grid {
+  --db-grid-columns: 1;
+  --db-grid-width: auto;
+
+  display: grid;
+  grid-template-columns: repeat(var(--db-grid-columns), 1fr);
+  gap: var(--db-control-spacing);
+  grid-auto-rows: 1fr;
+  justify-items: center;
+
+  &__item {
+    max-width: var(--db-grid-width);
+    border: 1px solid var(--db-border-color);
+    border-radius: $border-radius-control;
+    overflow: hidden;
+    width: 100%;
+    position: relative;
+  }
+
+  &__thumbnail {
+    border-bottom: 1px solid var(--db-border-color-inactive);
+    width: 100%;
+    
+    height: 16rem;
+    @supports (aspect-ratio: initial) {
+      height: auto;
+      aspect-ratio: 2 / 1;
+    }
+
+    img {
+      object-fit: cover;
+      height: 100%;
+      width: 100%;
+      display: block;
+    }
+  }
+
+  &__body {
+    padding: 1.5rem 2rem;
+    display: flex;
+    flex-direction: column;
+    //margin-bottom: 2rem;
+  }
+
+  &__title {
+    font-size: 1.5rem;
+    line-height: 2rem;
+    vertical-align: middle;
+    font-weight: bold;
+    color: var(--db-text-color-important);
+
+    a {
+      color: inherit !important;
+    }
+  }
+
+  &__content {
+    color: var(--db-text-color-inactive);
+    margin: 1rem 0;
+  }
+/*
+  &__footer {
+    padding: 0 2rem;
+    height: 2rem;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    color: var(--db-text-color-inactive);
+    text-align: right;
+    font-size: small;
+  }
+
+  &__read {
+    margin-left: auto;
+  }
+*/
+
+  > a {
+    display: block;
+
+    &:hover {
+      text-decoration: none !important;
+      box-shadow: 0 0 .25rem var(--db-surface-shadow-color);
+      background-image: var(--db-surface-overlay);
+    }
+
+  }
+
+  @media #{$medium-screen} {
+    --db-grid-columns: 3;
+    --db-grid-height: 12rem;
+  }
+
+  @media #{$large-screen} {
+    --db-grid-width: 24rem;
+    --db-grid-height: 16rem;
+  }
+}
+
+
+.c-pagination {
+  margin: 4rem auto;
+  display: flex;
+  justify-content: center;
+  position: relative;
+  color: var(--db-text-color-inactive);
+
+  &__item {
+    min-width: 2rem;
+    border: 1px solid var(--db-border-color);
+    margin: 0;
+    text-align: center;
+    overflow: hidden;
+    line-height: 2rem;
+    display: block;
+    color: var(--db-text-color-disabled);
+
+    &:first-child {
+      border-radius: $border-radius-object 0 0 $border-radius-object;
+    }
+
+    &:last-child {
+      border-radius: 0 $border-radius-object $border-radius-object 0;
+    }
+
+    &:not(:first-child) {
+      border-left: none;
+    }
+
+    @at-root a#{&}{
+      color: var(--db-text-color-inactive);
+
+      &:hover {
+        text-decoration: none !important;
+        background-color: var(--db-highlight-color-hover);
+      }
+    }
+  }
+
+
+  &::after {
+    content: attr(data-text);
+    display: block;
+    line-height: 2rem;
+    margin: 0 1rem;
+    white-space: nowrap;
+  }
+}

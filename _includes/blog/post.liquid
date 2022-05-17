@@ -1,0 +1,6 @@
+{%- assign pageitem = include.page | default: page -%}
+
+{%- include layout/article.liquid
+  page=pageitem
+  has_side=true
+-%}

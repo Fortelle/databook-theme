@@ -1,0 +1,50 @@
+.c-toc {
+  --db-toc-spacing: 1rem;
+  font-size: small;
+  border: 1px solid var(--db-border-color);
+  border-radius: $border-radius-object;
+  display: inline-block;
+  padding: var(--db-toc-spacing) 1rem;
+  width: 100%;
+
+  &__header {
+    border-bottom: 1px dashed var(--db-border-color-inactive);;
+    color: var(--db-text-color-inactive);
+    font-weight: bold;
+    margin-bottom: var(--db-toc-spacing);
+    text-align: center;
+    padding-bottom: var(--db-toc-spacing);
+  }
+
+  &__item {
+    margin-left: 1rem;
+    line-height: 1.8rem;
+
+    a {
+      color: var(--db-text-color-inactive);
+
+      &.is-active {
+        color: var(--db-text-color-active);
+        font-weight: bold;
+      }
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  ol,
+  ul {
+    margin: 0 !important;
+    margin-left: 1rem !important;
+  }
+
+  
+  @media #{$wide-screen} {
+    display: block;
+    padding: .5rem;
+    --db-toc-spacing: .5rem;
+  }
+
+}

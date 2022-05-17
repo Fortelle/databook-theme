@@ -1,0 +1,131 @@
+{%- assign html_attr = "" -%}
+
+{%- comment -%}html_class{%- endcomment -%}
+{%- assign html_class = "js-disabled" -%}
+{%- if jekyll.environment == "development" %} 
+  {%- assign html_class = html_class | append: " is-debug" -%}
+{%- endif -%}
+{%- if site.class %} 
+  {%- assign html_class = html_class | append: site.class -%}
+{%- endif -%}
+{%- if layout.class %} 
+  {%- assign html_class = html_class | append: layout.class -%}
+{%- endif -%}
+{%- if page.class %} 
+  {%- assign html_class = html_class | append: page.class -%}
+{%- endif -%}
+{%- if html_class.size > 0 -%}
+  {%- assign html_attr = html_attr | append: " class='" | append: html_class | append: "'" -%}
+{%- endif -%}
+
+{%- comment -%}lang{%- endcomment -%}
+{%- if site.language -%}
+  {%- assign html_attr = html_attr | append: " lang='" | append: site.language | append: "'" -%}
+{%- endif -%}
+
+{%- comment -%}html_style{%- endcomment -%}
+{%- assign html_style = "" -%}
+{%- if html_style.size > 0 -%}
+  {%- assign html_attr = html_attr | append: " style='" | append: html_style | append: "'" -%}
+{%- endif -%}
+
+{%- comment -%}data{%- endcomment -%}
+{%- assign color_scheme = page.color_scheme | default: layout.color_scheme | default: site.color_scheme | default: false -%}
+{%- if color_scheme -%}
+  {%- assign html_attr = html_attr | append: " data-color-scheme='" | append: color_scheme | append: "'" -%}
+{%- endif -%}
+
+{%- assign accent_color = page.accent_color | default: layout.accent_color | default: site.accent_color | default: false -%}
+{%- if accent_color -%}
+  {%- assign html_attr = html_attr | append: " data-accent-color='" | append: accent_color | append: "'" -%}
+{%- endif -%}
+
+{%- comment -%}sidebar_data{%- endcomment -%}
+{%- assign sidebar_data = nil -%}
+{%- if layout.hero or page.hero -%}
+{%- else -%}
+  {%- include functions/get_config_data.liquid key="sidebar" -%}
+  {%- assign sidebar_data = return -%}
+{%- endif -%}
+{%- assign has_sidebar = false -%}
+{%- if sidebar_data -%}
+  {%- assign has_sidebar = true -%}
+{%- endif -%}
+
+{%- comment -%}header_data{%- endcomment -%}
+{%- include functions/get_config_data.liquid key="header" -%}
+{%- assign header_data = return | default: nil -%}
+
+{%- comment -%}hero_data{%- endcomment -%}
+{%- include functions/get_config_data.liquid key="hero" -%}
+{%- assign hero_data = return | default: nil -%}
+
+{%- comment -%}footer_data{%- endcomment -%}
+{%- include functions/get_config_data.liquid key="footer" -%}
+{%- assign footer_data = return | default: nil -%}
+
+{%- comment -%}wrapper_class{%- endcomment -%}
+{%- assign wrapper_class = "l-wrapper" -%}
+{%- if page.layout -%}
+  {%- assign wrapper_class = wrapper_class | append: " l-wrapper--layout-" | append: page.layout -%}
+{%- endif -%}
+{%- if page.wide or layout.wide -%}
+  {%- assign wrapper_class = wrapper_class | append: " is-wide" -%}
+{%- endif -%}
+{%- if has_sidebar -%}
+  {%- assign wrapper_class = wrapper_class | append: " has-sidebar" -%}
+{%- endif -%}
+{%- if hero_data.overflow or header_data.translucent -%}
+  {%- assign wrapper_class = wrapper_class | append: " has-background" -%}
+{%- endif -%}
+
+
+{%- capture __PAGE_TITLE -%}
+  {%- include functions/get_page_title.liquid -%}
+{%- endcapture -%}
+
+{%- comment -%}
+  Html begin
+{%- endcomment -%}
+
+<!DOCTYPE html>
+<html {{- html_attr -}}>
+{% include head/head.liquid %}
+  <body>
+    <div class="{{- wrapper_class -}}">
+
+      {%- comment -%}l-sidebar{%- endcomment -%}
+      {%- if sidebar_data -%}
+        {%- include layout/sidebar.liquid data=sidebar_data -%}
+      {%- endif -%}
+
+      <main class="l-main">
+        {%- comment -%}l-header{%- endcomment -%}
+        {%- unless layout.hide_header or page.hide_header -%}
+          {%- include layout/header.liquid data=header_data has_sidebar=has_sidebar -%}
+        {%- endunless -%}
+
+        {%- comment -%}l-hero{%- endcomment -%}
+        {%- if hero_data -%}
+          {%- include layout/hero.liquid data=hero_data -%}
+        {%- endif -%}
+
+        {%- comment -%}l-body{%- endcomment -%}
+        <div class="l-body">
+          {{- content -}}
+
+          {%- include components/comments.liquid -%}
+        </div>
+
+        {%- comment -%}l-footer{%- endcomment -%}
+        {%- unless layout.hide_footer or page.hide_footer -%}
+          {%- include layout/footer.liquid data=footer_data -%}
+        {%- endunless -%}
+      </main>
+
+    </div>
+
+    {%- include custom/body.liquid -%}
+
+  </body>
+</html>

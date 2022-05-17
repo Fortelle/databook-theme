@@ -1,0 +1,49 @@
+.l-typography--article {
+  h1 {
+    --db-h-font-size: 3rem;
+    --db-h-padding: 1rem;
+    --db-h-margin: 1rem;
+    --db-h-border: 1px solid var(--db-border-color);
+  }
+  h2 {
+    --db-h-font-size: 1.75rem;
+    --db-h-padding: .75rem;
+    --db-h-margin: .75rem;
+    --db-h-border: 1px solid var(--db-border-color);
+  }
+  h3 {
+    --db-h-font-size: 1.5rem;
+    --db-h-padding: .75rem;
+    --db-h-margin: .75rem;
+    --db-h-border: 1px dashed var(--db-border-color);
+  }
+  h4 {
+    --db-h-font-size: 1.4rem;
+    --db-h-padding: .25rem;
+    --db-h-margin: .25rem;
+  }
+  h5 {
+    --db-h-font-size: 1.3rem;
+    --db-h-padding: .25rem;
+    --db-h-margin: .25rem;
+  }
+  h6 {
+    --db-h-font-size: 1.2rem;
+    --db-h-padding: .25rem;
+    --db-h-margin: .25rem;
+  }
+
+
+  h1, h2, h3, h4, h5, h6 {
+    font-weight: bold;
+    font-size: var(--db-h-font-size);
+    padding: var(--db-h-padding) 0;
+    border-bottom: var(--db-h-border, none);
+
+    margin-bottom: var(--db-h-margin);
+
+    &:not(:first-child) {
+      margin-top: calc(var(--db-h-margin) * 1.5);
+    }
+  }
+}

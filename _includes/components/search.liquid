@@ -1,0 +1,21 @@
+{%- assign provider = site.search -%}
+{%- if page.search == false -%}
+  {%- assign provider = false -%}
+{%- endif -%}
+
+{%- case provider -%}
+  {%- when true, "title", "content" -%}
+    <form class="c-search" action="/search">
+      <input id="db-searchbox" class="c-search__textbox" type="textbox" name="q" required />
+      <button class="c-search__expand c-navbutton" type="button"><label for="db-searchbox"><i class="fas fa-search"></i></label></button>
+      <button class="c-search__go c-navbutton" type="submit"><i class="fas fa-angle-right"></i></button>
+    </form>
+  {%- when "google" -%}
+    {%- include components/search.google.liquid -%}
+  {%- when "bing" -%}
+    {%- include components/search.bing.liquid -%}
+  {%- when "baidu" -%}
+    {%- include components/search.baidu.liquid -%}
+  {%- when "custom" -%}
+    {%- include custom/search.liquid -%}
+{%- endcase -%}

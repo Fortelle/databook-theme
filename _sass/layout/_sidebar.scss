@@ -1,0 +1,115 @@
+﻿.l-sidebar {
+  --db-sidebar-width: #{$side-width};
+  
+  background-color: var(--db-surface-color);
+  background-image: var(--db-surface-overlay);
+  border-right: 1px solid var(--db-border-color);
+  
+  color: var(--db-text-color-active);
+  display: none;
+  flex-direction: column;
+  overflow: auto;
+  position: fixed;
+  width: 100%;
+  z-index: 999;
+
+  height: 100vh;
+  padding-top: var(--db-header-height);
+
+  @media #{$medium-screen} {
+    width: var(--db-sidebar-width);
+    overflow: auto;
+  }
+
+  @media #{$large-screen} {
+    display: flex;
+    overflow: initial;
+    position: static;
+    margin-top: 0;
+    padding-top: 0;
+    height: auto;
+      
+    &--sticky {
+      position: sticky;
+      top: 0;
+      align-self: flex-start;
+      height: 100vh;
+    }
+  }
+
+  &.is-toggled {
+    display: flex;
+    position: fixed;
+    box-shadow: 0 0 1rem 0 var(--db-surface-shadow-color);
+
+    @media #{$large-screen} {
+      display: none;
+    }
+  }
+
+  &__header {
+    @include flex-center;
+    border-bottom: 1px solid var(--db-border-color);
+    height: var(--db-header-height);
+    display: none;
+
+    @media #{$large-screen} {
+      display: flex;
+    }
+    
+  }
+
+  &__body {
+    flex: 1;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__footer {
+    color: var(--db-text-color-inactive);
+    font-size: 80%;
+    padding: 1.5rem 1rem;
+    text-align: center;
+  }
+}
+
+.c-navbutton--sidebar {
+  @include fontawesome-icon;
+
+  &::before {
+    content: "\f105";
+    @media #{$large-screen} {
+      content: "\f104";
+    }
+  }
+
+  &.is-toggled::before {
+    content: "\f104";
+    @media #{$large-screen} {
+      content: "\f105";
+    }
+  }
+  
+}
+
+#sidebar-toggler {
+  display: none;
+
+  &:checked + .l-sidebar {
+    display: flex;
+    position: fixed;
+    box-shadow: 0 0 1rem 0 var(--db-surface-shadow-color);
+  
+    @media #{$large-screen} {
+      display: none;
+    }
+  }
+
+  &:checked ~ .l-main .c-navbutton--sidebar::before {
+    content: "\f104";
+    @media #{$large-screen} {
+      content: "\f105";
+    }
+  }
+}

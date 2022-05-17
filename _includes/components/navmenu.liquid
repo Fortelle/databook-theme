@@ -1,0 +1,4 @@
+<div class="c-navmenu {%- unless include.data.collapsed %} c-navmenu--responsive{%- endunless -%} {%- if include.is_right %} c-navmenu--right{%- endif -%}">
+  <button class="c-navmenu__button c-navbutton c-navbutton--menu"><i class="fas fa-bars"></i></button>
+  {%- include components/navmenu.items.liquid items=include.data -%}
+</div>

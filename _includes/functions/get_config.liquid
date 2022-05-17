@@ -1,0 +1,11 @@
+{%- assign return = include.default -%}
+
+{%- assign key = include.key -%}
+
+{%- if page[key] != nil -%}
+  {%- assign return = page[key] -%}
+{%- elsif layout[key] != nil -%}
+  {%- assign return = layout[key] -%}
+{%- elsif site[key] != nil -%}
+  {%- assign return = site[key] -%}
+{%- endif -%}

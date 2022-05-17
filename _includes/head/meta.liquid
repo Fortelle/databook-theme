@@ -1,0 +1,41 @@
+{%- assign robots = "index,follow" -%}
+{%- if site.disallow_robots -%}
+  {%- assign robots = "noindex,nofollow" -%}
+{%- endif -%}
+
+{%- assign title_separator = site.title_separator | default: "-" -%}
+{%- capture page_title -%}{%- include functions/get_page_title.liquid -%}{%- endcapture -%}
+{%- assign html_title = page_title -%}
+{%- if page.title -%}
+  {%- assign html_title = html_title | append: " " | append: title_separator | append: " " -%}
+{%- endif -%}
+{%- assign html_title = html_title | append: site.title -%}
+
+
+    <meta charset="{{- site.encoding | default: 'utf-8' -}}">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="{{- robots -}}">
+    {%- if site.keywords -%}<meta name="keywords" content="{{- site.keywords -}}">{%- endif -%}
+    {%- if site.baseurl -%}<base href="{{- site.baseurl -}}">{%- endif -%}
+    <link rel="icon" type="image/x-icon" href="{{- site.favicon | default:'/assets/favicon.ico' -}}">
+
+    <title>{{- html_title -}}</title>
+    
+    <script type="text/javascript" >
+      window.databookConfig = {
+        siteTitle: "{{- site.title -}}",
+        siteBaseurl: "{{- site.baseurl -}}",
+        siteUrl: "{{- site.url -}}",
+        titleSeparater: "{{- site.title_separator -}}",
+        generatedDate: "{{- site.time | date_to_xmlschema -}}",
+        pageTitle: "{{- page_title -}}",
+        pageLayout: "{{- page.layout -}}",
+        {%- if page.scrollspy or layout.scrollspy or site.scrollspy -%}scrollspy: true,{%- endif -%}
+        {%- if page.chartjs or layout.chartjs or site.chartjs -%}chartjs: true,{%- endif -%}
+        {%- if page.mathjax or layout.mathjax or site.mathjax -%}mathjax: true,{%- endif -%}
+        {%- if page.mermaid or layout.mermaid or site.mermaid -%}mermaid: true,{%- endif -%}
+        {% if jekyll.environment == "development" %}debug: true,{% endif %}
+      };
+      document.querySelector('.js-disabled').classList.remove('js-disabled');
+    </script>

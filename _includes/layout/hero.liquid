@@ -1,0 +1,29 @@
+{%- assign hero_data = include.data -%}
+
+{%- assign hero_style = "" -%}
+{%- if hero_data.image -%}
+  {%- assign hero_style = hero_style | append: "background-image: url(" | append: hero_data.image | append: ");" -%}
+{%- endif -%}
+{%- if hero_data.height -%}
+  {%- assign hero_style = hero_style | append: "height: " | append: hero_data.height | append: ";" -%}
+{%- endif -%}
+
+<div class="l-hero {%- if hero_data.overflow %} l-hero--overflow{%- endif -%}">
+  <div class="c-hero" style="{{- hero_style -}}">
+    {%- if hero_data.title -%}
+      <div class="c-hero__title">
+        {{- hero_data.title -}}
+      </div>
+    {%- endif -%}
+    {%- if hero_data.description -%}
+      <div class="c-hero__description">
+        {{- hero_data.description -}}
+      </div>
+    {%- endif -%}
+    {%- if hero_data.links -%}
+      <div class="c-hero__links">
+        {{- hero_data.links -}}
+      </div>
+    {%- endif -%}
+  </div>
+</div>

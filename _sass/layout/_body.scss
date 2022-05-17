@@ -1,0 +1,26 @@
+﻿.l-body {
+  flex: 1;
+  flex-direction: column;
+  display: flex;
+  padding: $page-spacing-small;
+  margin: auto;
+  width: 100%;
+
+  @media #{$medium-screen} {
+    padding: $page-spacing-medium * .5 $page-spacing-medium;
+  }
+
+  @media #{$large-screen} {
+    padding: $page-spacing-large * .5 $page-spacing-large;
+  }
+
+  @media #{$wide-screen} {
+    padding: $page-spacing-large * .5 $page-spacing-wide;
+    max-width: $page-max-width + $page-spacing-wide * 2;
+
+    @at-root .l-wrapper.is-wide #{&} {
+      max-width: unset;
+    }
+  }
+
+}

@@ -1,0 +1,38 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "inputs": [
+      {
+        "id": "versionType",
+        "type": "pickString",
+        "description": "version type",
+        "options": [
+          "major",
+          "minor",
+          "patch",
+          "none"
+        ]
+      }
+    ],
+    "tasks": [
+      {
+          "label": "release",
+          "type": "shell",
+          "command": "./.scripts/release.sh ${input:versionType}",
+          "windows": {
+              "command": "bash .scripts/release.sh ${input:versionType}"
+          },
+          "problemMatcher": []
+      },
+      {
+          "label": "publish",
+          "type": "shell",
+          "command": "./.scripts/publish.sh",
+          "windows": {
+              "command": "bash .scripts/publish.sh"
+          },
+          "problemMatcher": []
+      }
+    ]
+}

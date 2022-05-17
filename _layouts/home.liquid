@@ -1,0 +1,20 @@
+---
+layout: default
+hide_title: true
+comment: false
+toc: false
+---
+
+{%- assign content_size = content | strip | strip_newlines | size -%}
+
+{%- if page.url == "/" and content_size > 0 -%}
+  {%- include layout/page.liquid
+    type = "home"
+    content=content
+    hide_title=true
+  -%}
+{%- endif -%}
+
+{%- unless site.paginate_first_page_path -%}
+  {%- include blog/blog.liquid -%}
+{%- endunless -%}

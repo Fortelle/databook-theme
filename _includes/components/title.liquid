@@ -1,0 +1,41 @@
+<div class="c-title">
+
+  {%- if include.breadcrumb -%}
+    <div class="c-title__breadcrumb">
+      {{- include.breadcrumb -}}
+    </div>
+  {%- endif -%}
+
+  <h1 class="c-title__title">
+    <a href="{{ include.url | relative_url }}">
+      {{- include.title -}}
+    </a>
+  </h1>
+
+  {%- if include.right -%}
+    <div class="c-title__right">
+      {{- include.right -}}
+    </div>
+  {%- endif -%}
+
+  {%- if include.tagline -%}
+    <div class="c-title__tagline">
+      {{- include.tagline -}}
+    </div>
+  {%- endif -%}
+
+  <hr class="c-title__divider" />
+
+  {%- if include.meta -%}
+    <div class="c-title__meta">
+      {{- include.meta -}}
+    </div>
+  {%- endif -%}
+
+  {%- if include.indicator -%}
+    <div class="c-title__indicator">
+      {{- include.indicator -}}
+    </div>
+  {%- endif -%}
+
+</div>

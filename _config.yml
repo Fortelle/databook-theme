@@ -1,0 +1,110 @@
+##
+## Theme settings
+##
+
+#theme:          "databook-theme"
+#remote_theme:   "Fortelle/databook-theme"
+
+##
+## Site settings
+##
+
+title:          "Databook"
+description:    "A Jekyll theme for blogs and documentations."
+logo:           "assets/databook/img/logo.png" 
+copyright:      "© 2022 <a href='https://github.com/fortelle/databook-theme'>Databook</a>"
+keywords:       ""
+
+baseurl:        #
+encoding:       "utf-8"
+language:       "en-US"
+npm_cdn:        "https://cdn.jsdelivr.net/npm/"
+repository:     "Fortelle/databook-theme"
+title_separator: "-"
+timezone:       #
+url:            #
+
+permalink:      "/:title:output_ext"
+typography:     "article"
+color_scheme:   "prefer" # "prefer", "light", "dark"
+accent_color:   "" # "red", "yellow", "green", "blue", "purple"...
+sidebar:        #
+#sidebar_id:     ""
+header:         #
+#header_id:      ""
+footer:         #
+#header_id:      ""
+search:         false # "title", "content", "google", "bing", "custom"
+analytics:      false # "google_analytics", "custom"
+comments:       false # "disqus", "gitalk", "custom"
+
+##
+## Blog settings
+##
+
+blog_style:     "full" # "full", "list", "custom"
+thumbnail_placeholder: #
+
+paginate:       10
+paginate_path:  "/page:num/"
+#paginate_first_page_path: "/page1/"
+
+##
+## Service settings
+##
+
+toc:            true
+chartjs:        false
+flowchart:      false
+katex:          false
+mathjax:        false
+mermaid:        false
+
+google_analytics:
+  id:           ""
+
+disqus:
+  shortname:    ""
+
+gitalk:
+  clientID:     ""
+  clientSecret: ""
+  repo:         ""
+  owner:        ""
+  proxy:        ""
+
+scrollspy: true
+
+##
+## Default settings
+##
+
+defaults:
+  -
+    scope:
+      type: "posts"
+    values:
+      permalink: "/:categories/:title:output_ext"
+
+
+##
+## Build settings
+##
+
+plugins:
+  - "jekyll-paginate"
+  - "jekyll-sitemap"
+  - "jekyll-avatar"
+  - "jekyll-feed"
+  - "jekyll-mentions"
+  - "jekyll-redirect-from"
+  - "jemoji"
+
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor/bundle/
+  - vendor/cache/
+  - vendor/gems/
+  - vendor/ruby/

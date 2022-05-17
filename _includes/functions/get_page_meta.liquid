@@ -1,0 +1,60 @@
+{%- assign pageitem = include.page | default: page -%}
+
+{%- if pageitem.date -%}
+  {%- assign year1 = site.time | date: "%Y" -%}
+  {%- assign year2 = pageitem.date | date: "%Y" -%}
+  {%- if year1 == year2 or include.short_date -%}
+    {%- capture date_format -%}{%- include localize key="date_format_short" default="%b %d %H:%M" -%}{%- endcapture -%}
+  {%- else -%}
+    {%- capture date_format -%}{%- include localize key="date_format_long" default="%b %d, %Y %H:%M" -%}{%- endcapture -%}
+  {%- endif -%}
+{%- endif -%}
+
+<div class="c-meta">
+  {%- if pageitem.date -%}
+    <time class="c-meta__item c-meta__item--time" datetime="{{- pageitem.date | date_to_xmlschema -}}">
+      {{- pageitem.date | date: date_format -}}
+    </time>
+  {%- endif -%}
+
+  {%- if include.authors and pageitem.author -%}
+    <span class="c-meta__item c-meta__item--author">{{- pageitem.author -}}</span>
+  {%- endif -%}
+
+  {%- if include.categories and pageitem.categories and pageitem.categories.size > 0 -%}
+    <span class="c-meta__item c-meta__item--categories">
+    {%- for category in pageitem.categories -%}
+      <a href="{%- include functions/get_taxonomy_link.liquid category=category -%}">{{- category -}}</a>
+    {%- endfor -%}
+    </span>
+  {%- endif -%}
+
+  {%- if include.tags and pageitem.tags and pageitem.tags.size > 0 -%}
+    <span class="c-meta__item c-meta__item--tags">
+    {%- for tag in pageitem.tags -%}
+      <a href="{%- include functions/get_taxonomy_link.liquid tag=tag -%}">{{- tag -}}</a>
+    {%- endfor -%}
+    </span>
+  {%- endif -%}
+
+  {%- if include.details -%}
+    {%- if site.source_link and site.github -%}
+      <span class="c-meta__item c-meta__item--source">
+        <a href="{{- site.github.repository_url -}}/blob/{{- site.github.source.branch -}}/{{- pageitem.path -}}" target="_blank">Source</a>
+      </span>
+    {%- endif -%}
+
+    {%- if pageitem.sticky -%}
+      <span class="c-meta__item c-meta__item--sticky">
+        {%- include localize key="tag_sticky" default="Sticky" -%}
+      </span>
+    {%- endif -%}
+
+    {%- if pageitem.featured -%}
+      <span class="c-meta__item c-meta__item--featured">
+        {%- include localize key="tag_featured" default="Featured" -%}
+      </span>
+    {%- endif -%}
+  {%- endif -%}
+
+</div>

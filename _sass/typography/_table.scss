@@ -1,0 +1,119 @@
+.l-typography {
+  --db-cell-padding: .6rem .8rem;
+  --db-cell-bold-border: 2px;
+  --db-cell-border-row: var(--db-border-color);
+  --db-cell-border-column: var(--db-border-color);
+
+  table:not(.rouge-table) {
+    border: 1px solid var(--db-border-color);
+    border-collapse: separate;
+    border-radius: $border-radius-object;
+    border-spacing: 0;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    overflow: hidden;
+    width: 100%;
+  
+    th, td {
+      padding: var(--db-cell-padding);
+      border-bottom: 1px solid var(--db-cell-border-row);
+      border-right: 1px solid var(--db-cell-border-column);
+    }
+  
+    > *:last-child > tr:last-child > * {
+      border-bottom: none;
+    }
+  
+    > * > tr > *:last-child {
+      border-right: none;
+    }
+
+    > *:not(:last-child) > tr:last-child {
+      position : relative;
+
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        height: 0;
+        width: 100%;
+        border-bottom: var(--db-cell-bold-border) solid var(--db-border-color);
+      }
+    }
+    
+    + .h-table--combined {
+      margin-top: calc(-1rem - 1px) !important;
+      border-top: none !important;
+      border-top-left-radius: 0 !important;
+      border-top-right-radius: 0 !important;
+    }
+  }
+
+}
+
+.h-table--small {
+  --db-cell-padding: .2rem .4rem;
+  font-size: 90%;
+}
+
+.h-table--row {
+  --db-cell-border-column: transparent;
+}
+
+.h-table--column {
+  --db-cell-border-row: transparent;
+  --db-cell-bold-border: 1px;
+}
+
+.h-table--grid {
+  --db-cell-border-row: var(--db-border-color);
+  --db-cell-border-column: var(--db-border-color);
+}
+
+.h-table--striped {
+  > tbody:first-child > tr:nth-child(even),
+  > tbody:not(:first-child) > tr:nth-child(odd) {
+  background-color: var(--db-highlight-color-hover);
+  }
+}
+
+.h-table--hover:not(.h-table--striped) {
+  > tbody > tr:hover {
+    background-color: var(--db-highlight-color-hover);
+  }
+}
+
+.h-table--hover.h-table--column {
+  // todo
+  td:hover {
+  }
+}
+
+.h-table--left {
+  text-align: left;
+}
+
+.h-table--center {
+  text-align: center;
+}
+
+.h-table--right {
+  text-align: right;
+}
+
+.h-table--justify {
+  text-align: justify;
+}
+
+.h-table--top td {
+  vertical-align: top;
+}
+
+.h-table--middle td {
+  vertical-align: middle;
+}
+
+.h-table--bottom td {
+  vertical-align: bottom;
+}

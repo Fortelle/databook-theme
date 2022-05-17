@@ -1,0 +1,13 @@
+{%- assign provider = site.comments -%}
+{%- if page.comments == false -%}
+  {%- assign provider = false -%}
+{%- endif -%}
+
+{%- case provider -%}
+  {%- when "disqus" -%}
+    {%- include components/comments.disqus.liquid -%}
+  {%- when "gitalk" -%}
+    {%- include components/comments.gitalk.liquid -%}
+  {%- when "custom" -%}
+    {%- include custom/comments.liquid -%}
+{%- endcase -%}

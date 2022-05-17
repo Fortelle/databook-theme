@@ -1,0 +1,10 @@
+{%- assign accent_color_hue = page.accent_color_hue | default: layout.accent_color_hue | default: site.accent_color_hue | default: false -%}
+{%- assign accent_color_saturation = page.accent_color_saturation | default: layout.accent_color_saturation | default: site.accent_color_saturation | default: false -%}
+{%- if accent_color_hue or accent_color_saturation -%}
+  <style>
+    :root[data-accent-color="custom"] {
+      --db-accent-color-h: {{accent_color_hue|default:"220"}};
+      --db-accent-color-s: {{accent_color_saturation|default:"50%"}};
+    }
+  </style>
+{%- endif -%}

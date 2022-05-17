@@ -1,0 +1,28 @@
+// (<768px)
+$small-screen:  "";
+
+// (≥768px)
+$medium-screen: "screen and (min-width: #{$medium-breakpoint})";
+
+// (≥1200px)
+$large-screen:  "screen and (min-width: #{$large-breakpoint})";
+
+// (≥1400px)
+$wide-screen:  "screen and (min-width: #{$wide-breakpoint})";
+
+:root {
+  --db-header-height: #{$header-height};
+  --db-control-spacing: 1rem;
+  
+  @media #{$medium-screen} {
+    --db-header-height: #{$header-height * 1.5};
+  }
+
+  @media #{$medium-screen} {
+    --db-control-spacing: 2rem;
+  }
+  @media #{$large-screen} {
+    --db-control-spacing: 4rem;
+  }
+  
+}

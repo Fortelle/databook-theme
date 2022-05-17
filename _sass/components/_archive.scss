@@ -1,0 +1,49 @@
+.c-archive {
+  display: flex;
+  flex-wrap: wrap;
+
+  &__link {
+    border: 1px solid var(--db-border-color);
+    width: calc(25% - 1rem);
+    margin: .25rem .5rem;
+    padding: .5rem;
+    border-radius: $border-radius-object;
+    color: var(--db-text-color-inactive);
+    
+    &:hover {
+      text-decoration: none;
+      background-color: var(--db-background-hover-color);
+    }
+  }
+
+  &__count {
+    float: right;
+    margin-right: .25rem;
+  }
+
+  &__tab {
+    order: 2;
+    display: none;
+    margin-top: 2rem;
+  }
+
+  &__toggler {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+  }
+
+  &__toggler:target + &__link {
+    background-color: var(--db-control-color);
+    border-color: var(--db-control-border-color);
+    color: var(--db-control-text-color);
+  }
+
+  &__toggler:target + &__link + &__tab {
+    display: initial;
+  }
+
+}

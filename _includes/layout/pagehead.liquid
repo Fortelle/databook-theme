@@ -1,0 +1,17 @@
+<div class="c-pagehead">
+  <div class="c-pagehead__breadcrumb">{{- include.breadcrumb -}}</div>
+  
+  <h1 class="c-pagehead__title">
+    <a href="{{ include.url | relative_url }}">
+      {{- include.title -}}
+    </a>
+  </h1>
+
+  <div class="c-pagehead__right">
+  </div>
+  <div class="c-pagehead__tagline">{{- include.tagline | markdownify -}}</div>
+
+  <div class="c-pagehead__divider"></div>
+  <div class="c-pagehead__meta">{{- include.meta -}}</div>
+  <div class="c-pagehead__indicator">{{- include.indicator -}}</div>
+</div>

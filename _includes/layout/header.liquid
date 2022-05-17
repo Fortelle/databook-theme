@@ -1,0 +1,31 @@
+{%- assign header_data = include.data -%}
+
+<header class="l-header {%- if header_data.sticky %} l-header--sticky{%- endif -%}">
+
+  <div class="l-header__left">
+    {%- if include.has_sidebar -%}
+      <label class="c-navbutton c-navbutton--sidebar" for="sidebar-toggler"></label>
+    {%- endif -%}
+
+    {%- if header_data.left_menu -%}
+      {%- include components/navmenu.liquid data=header_data.left_menu -%}
+    {%- endif -%}
+  </div>
+
+  <div class="l-header__logo">
+    <a class="c-logo" href="{{- '/' | relative_url -}}">
+      <img class="c-logo__image" src="{{- header_data.logo_url | default: site.logo | relative_url -}}" alt="Logo" />
+      <span class="c-logo__text">{{- header_data.logo_text | default: site.title | escape -}}</span>
+    </a>
+  </div>
+
+  <div class="l-header__right">
+    {%- if site.search -%}
+      {%- include components/search.liquid -%}
+    {%- endif -%}
+    {%- if header_data.right_menu -%}
+      {%- include components/navmenu.liquid data=header_data.right_menu is_right=true -%}
+    {%- endif -%}
+  </div>
+
+</header>

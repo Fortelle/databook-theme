@@ -1,0 +1,30 @@
+---
+---
+{%- assign use_search = false -%}
+{%- if site.search == true or site.search == "title" or site.search == "content" -%}
+  {%- assign use_search = true -%}
+{%- endif -%}
+
+{%- if use_search -%}
+  {%- assign search_pages = site.posts -%}
+  {%- for item in site.html_pages -%}
+    {%- if item.layout and item.layout != "system" and item.layout != "taxonomy" and page.searchable != false -%}
+      {%- assign search_pages = search_pages | push: item -%}
+    {%- endif -%}
+  {%- endfor -%}
+{%- endif -%}
+
+[
+  {%- if use_search -%}
+    {%- for item in search_pages -%}
+{
+  "title": "{{ item.title | escape }}",
+  {%- if site.search == "content" -%}"content": "{{ item.content | strip_html | strip_newlines | escape }}",    {%- endif -%}
+  "url": "{{ site.baseurl }}{{ item.url }}",
+  "categories" : [{%- if item.categories.size > 0 -%}"{{ item.categories | join: '", "' }}"{%- endif -%}],
+  "tags": [{%- if item.tags.size > 0 -%}"{{ item.tags | join: '", "' }}"{%- endif -%}],
+  "date": "{{ item.date }}"
+}{%- unless forloop.last -%},{%- endunless -%}
+    {%- endfor -%}
+  {%- endif -%}
+]

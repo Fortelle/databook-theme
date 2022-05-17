@@ -1,0 +1,67 @@
+---
+layout: system
+---
+
+{%- assign taxonomy = "" | split: "" -%}
+
+{%- if page.taxonomy == "year" -%}
+  {%- assign groups = site.posts | group_by_exp: "post", "post.date | date: '%Y'" | sort: "name"  -%}
+  {%- for group in groups -%}
+    {%- assign item = "" | split: "" | push: group.name | push: group.items -%}
+    {%- assign taxonomy = taxonomy | push: item -%}
+  {%- endfor -%}
+{%- elsif page.taxonomy == "category" or page.taxonomy == "tag" -%}
+  {%- if page.taxonomy == "category" -%}
+    {%- assign collection = site.categories -%}
+  {%- elsif page.taxonomy == "tag" -%}
+    {%- assign collection = site.tags -%}
+  {%- endif -%}
+  {%- assign sizeGroups = collection | group_by_exp: "group", "group[1].size" | sort: "name" | reverse -%}
+  {%- for sizeGroup in sizeGroups -%}
+    {%- for group in sizeGroup.items -%}
+      {%- assign item = "" | split: "" | push: group[0] | push: group[1] -%}
+      {%- assign taxonomy = taxonomy | push: item -%}
+    {%- endfor -%}
+  {%- endfor -%}
+{%- elsif page.taxonomy == "author" -%}
+  {%- assign collection = "" | split: "" -%}
+  {%- for post in site.posts -%}
+    {%- if post.authors -%}
+      {%- for author in post.authors -%}
+        {%- unless author.first -%}
+          {%- assign item = "" | split: "" | push: author | push: post -%}
+          {%- assign collection = collection | push: item -%}
+        {%- endunless -%}
+      {%- endfor -%}
+    {%- elsif post.author -%}
+      {%- unless post.author.first -%}
+        {%- assign item = "" | split: "" | push: post.author | push: post -%}
+        {%- assign collection = collection | push: item -%}
+      {%- endunless -%}
+    {%- endif -%}
+  {%- endfor -%}
+  {%- assign authorGroups = collection | group_by_exp: "item", "item[0]" | sort: "name"  -%}
+  {%- for authorGroup in authorGroups -%}
+    {%- assign posts = "" | split: "" -%}
+    {%- for item in authorGroup.items -%}
+      {%- assign posts = posts | push: item[1] -%}
+    {%- endfor -%}
+    {%- assign item = "" | split: "" | push: authorGroup.name | push: posts -%}
+    {%- assign taxonomy = taxonomy | push: item -%}
+  {%- endfor -%}
+{%- endif -%}
+
+<div class="c-archive">
+  {%- for group in taxonomy -%}
+    {%- assign id = group[0] | url_encode -%}
+    {%- assign posts = group[1] -%}
+    <div class="c-archive__toggler" id="!/{{group[0]}}"></div>
+    <a class="c-archive__link" href="#!/{{id}}">
+      {{- group[0] -}}
+      <span class="c-archive__count">{{- posts.size -}}</span>
+    </a>
+    <div class="c-archive__tab">
+      {%- include blog/list.liquid posts=posts -%}
+    </div>
+  {%- endfor -%}
+</div>

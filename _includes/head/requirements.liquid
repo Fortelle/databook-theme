@@ -1,0 +1,87 @@
+{%- assign npm_cdn_key = ":npm_cdn/" -%}
+{%- assign npm_cdn = site.npm_cdn | default: "https://cdn.jsdelivr.net/npm/"-%}
+{%- assign last_char = npm_cdn | split: "" | last -%}
+{%- if last_char != "/" -%}{%- assign npc_cdn = npm_cdn | append: "/" -%}{%- endif -%}
+
+{%- assign github_cdn_key = ":github_cdn/" -%}
+{%- assign github_cdn = site.github_cdn | default: "https://cdn.jsdelivr.net/gh/" -%}
+{%- assign last_char = github_cdn | split: "" | last -%}
+{%- if last_char != "/" -%}{%- assign github_cdn = github_cdn | append: "/" -%}{%- endif -%}
+
+{%- assign js_list = "" | split: "" -%}
+{%- assign mjs_list = "" | split: "" -%}
+{%- assign css_list = "" | split: "" -%}
+
+{%- assign js_list = js_list
+  | push: "/assets/databook/js/databook.js"
+  -%}
+
+{%- assign mjs_list = mjs_list
+  -%}
+
+{%- assign css_list = css_list
+  | push: "/assets/databook/css/databook.css"
+  | push: ":npm_cdn/@fortawesome/fontawesome-free/css/all.min.css"
+  -%}
+
+{%- if page.chartjs or layout.chartjs or site.chartjs -%}
+  {%- assign js_list = js_list | push: ":npm_cdn/chart.js/dist/chart.min.js" -%}
+{%- endif -%}
+
+{%- if page.flowchart or layout.flowchart or site.flowchart -%}
+  {%- assign js_list = js_list | push: ":npm_cdn/raphael@2.3.0/raphael.min.js" -%}
+  {%- assign js_list = js_list | push: ":npm_cdn/flowchart.js@1.8.0/release/flowchart.min.js" -%}
+{%- endif -%}
+
+{%- if page.katex or layout.katex or site.katex -%}
+  {%- assign css_list = css_list | push: ":npm_cdn/katex/dist/katex.min.css" -%}
+  {%- assign js_list = js_list | push: ":npm_cdn/katex/dist/katex.min.js" -%}
+  {%- assign js_list = js_list | push: ":npm_cdn/katex/dist/contrib/auto-render.min.js" -%}
+  {%- include custom/katex.liquid -%}
+{%- endif -%}
+
+{%- if page.mathjax or layout.mathjax or site.mathjax -%}
+  {%- assign js_list = js_list | push: ":npm_cdn/mathjax/es5/tex-mml-chtml.js" -%}
+  {%- include custom/mathjax.liquid -%}
+{%- endif -%}
+
+{%- if page.mermaid or layout.mermaid or site.mermaid -%}
+  {%- assign js_list = js_list | push: ":npm_cdn/mermaid/dist/mermaid.min.js" -%}
+{%- endif -%}
+
+{%- if site.data.requirements.js -%}{%- assign js_list = js_list | concat: site.data.requirements.js -%}{%- endif -%}
+{%- if site.data.requirements.modules -%}{%- assign mjs_list = mjs_list | concat: site.data.requirements.modules -%}{%- endif -%}
+{%- if site.data.requirements.css -%}{%- assign css_list = css_list | concat: site.data.requirements.css -%}{%- endif -%}
+
+{%- if site.requirements.js -%}{%- assign js_list = js_list | concat: site.requirements.js -%}{%- endif -%}
+{%- if site.requirements.modules -%}{%- assign mjs_list = mjs_list | concat: site.requirements.modules -%}{%- endif -%}
+{%- if site.requirements.css -%}{%- assign css_list = css_list | concat: site.requirements.css -%}{%- endif -%}
+
+{%- if layout.requirements.js -%}{%- assign js_list = js_list | concat: layout.requirements.js -%}{%- endif -%}
+{%- if layout.requirements.modules -%}{%- assign mjs_list = mjs_list | concat: layout.requirements.modules -%}{%- endif -%}
+{%- if layout.requirements.css -%}{%- assign css_list = css_list | concat: layout.requirements.css -%}{%- endif -%}
+
+{%- if page.requirements.js -%}{%- assign js_list = js_list | concat: page.requirements.js -%}{%- endif -%}
+{%- if page.requirements.modules -%}{%- assign mjs_list = mjs_list | concat: page.requirements.modules -%}{%- endif -%}
+{%- if page.requirements.css -%}{%- assign css_list = css_list | concat: page.requirements.css -%}{%- endif -%}
+
+{%- if page.js -%}{%- assign js_list = js_list | concat: page.js -%}{%- endif -%}
+{%- if page.modules -%}{%- assign mjs_list = mjs_list | concat: page.modules -%}{%- endif -%}
+{%- if page.css -%}{%- assign css_list = css_list | concat: page.css -%}{%- endif -%}
+
+{%- assign js_list = js_list | uniq -%}
+{%- assign mjs_list = mjs_list | uniq -%}
+{%- assign css_list = css_list | uniq -%}
+
+
+{%- for url in css_list -%}
+  <link href="{{- url | replace: npm_cdn_key, npm_cdn | replace: github_cdn_key, github_cdn | relative_url -}}" type="text/css" rel="stylesheet">
+{%- endfor -%}
+
+{%- for url in js_list -%}
+  <script src="{{- url | replace: npm_cdn_key, npm_cdn | replace: github_cdn_key, github_cdn | relative_url -}}" type="text/javascript" defer></script>
+{%- endfor -%}
+
+{%- for url in mjs_list -%}
+  <script src="{{- url | replace: npm_cdn_key, npm_cdn | replace: github_cdn_key, github_cdn | relative_url -}}" type="module" ></script>
+{%- endfor -%}

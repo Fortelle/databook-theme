@@ -1,0 +1,5 @@
+{%- if include.icon contains "<" -%}
+  {{- include.icon | markdownify -}}
+{%- else -%}
+  <i class="{{- include.icon -}}"></i>
+{%- endif -%}

@@ -1,0 +1,33 @@
+{%- capture page_header -%}
+  {%- unless include.hide_title -%}
+    <div class="l-page__header">
+      {%- if include.header -%}
+        {{- include.header -}}
+      {%- elsif include.title -%}
+        {%- include components/title.liquid
+          title = include.title
+        -%}
+      {%- endif -%}
+    </div>
+  {%- endunless -%}
+{%- endcapture -%}
+
+<div class="l-page" {%- if include.type %} data-type="{{include.type}}"{%- endif -%} {%- if include.src %} data-src="{{include.src}}"{%- endif -%}>
+
+  {{- page_header | strip_newlines -}}
+
+  {%- if include.side -%}
+    <div class="l-page__side" >
+      {{- include.side | strip_newlines -}}
+    </div>
+  {%- endif -%}
+
+  <div class="l-page__content {%- if include.typography %} l-typography l-typography--{{include.typography}}{%- endif -%}" >
+    {{- include.content -}}
+  </div>
+
+  <div class="l-page__footer">
+    {{- include.footer | strip_newlines -}}
+  </div>
+
+</div>

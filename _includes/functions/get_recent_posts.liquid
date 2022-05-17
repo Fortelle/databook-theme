@@ -1,0 +1,17 @@
+{%- assign posts = site.posts | sort: "date" -%}
+
+{%- if include.sticky -%}
+  {%- assign sticky_posts = posts | where_exp: "item", "item.sticky == true" -%}
+  {%- assign normal_posts = posts | where_exp: "item", "item.sticky != true" -%}
+  {%- assign posts = sticky_posts | concat: normal_posts -%}
+{%- elsif include.featured -%}
+  {%- assign featured_posts = posts | where_exp: "item", "item.featured == true" -%}
+  {%- assign normal_posts = posts | where_exp: "item", "item.featured != true" -%}
+  {%- assign posts = featured_posts | concat: normal_posts -%}
+{%- endif -%}
+
+{%- if include.count -%}
+  {%- assign posts = posts | slice: 0, include.count -%}
+{%- endif -%}
+
+{%- assign return = posts -%}

@@ -1,0 +1,83 @@
+{%- assign page_number = include.page_number | default: paginator.page | default: 1 -%}
+{%- assign total_page_number = site.posts.size | times: 1.0 | divided_by: site.paginate | ceil -%}
+
+{%- if page_number > 1 -%}
+  {%- assign first_page_path = site.paginate_first_page_path | default: "/" | relative_url -%}
+  {%- if page_number == 2 -%}
+    {%- assign previous_page_path = first_page_path -%}
+  {%- else -%}
+    {%- assign previous_page = page_number | minus: 1 -%}
+    {%- assign previous_page_path = site.paginate_path | relative_url | replace: ":num", previous_page -%}
+  {%- endif -%}
+{%- endif -%}
+
+{%- if page_number < total_page_number -%}
+  {%- assign last_page_path = site.paginate_path | relative_url | replace: ":num", total_page_number -%}
+  {%- assign next_page = page_number | plus: 1 -%}
+  {%- assign next_page_path = site.paginate_path | relative_url | replace: ":num", next_page -%}
+{%- endif -%}
+
+{%- capture page_text -%}
+  {%- include localize key="title-postlist" default="Page :param1" param1=page_number -%}
+{%- endcapture -%}
+
+<div class="c-pagination" data-text="{{- page_text -}}">
+  {%- if first_page_path -%}
+    <a class="c-pagination__item" href="{{- first_page_path -}}">
+      <i class="fas fa-angle-double-left"></i>
+    </a>
+  {%- else -%}
+    <div class="c-pagination__item">
+      <i class="fas fa-angle-double-left"></i>
+    </div>
+  {%- endif -%}
+
+  {%- if previous_page_path -%}
+    <a class="c-pagination__item" href="{{- previous_page_path -}}">
+      <i class="fas fa-angle-left"></i>
+    </a>
+  {%- else -%}
+    <div class="c-pagination__item">
+      <i class="fas fa-angle-left"></i>
+    </div>
+  {%- endif -%}
+
+  {%- for pi in (1..total_page_number) -%}
+    {%- if pi == page_number -%}
+      <div class="c-pagination__item">
+        {{- pi -}}
+      </div>
+    {%- elsif pi == 1 -%}
+      <a class="c-pagination__item" href="{{- first_page_path -}}">
+        {{- pi -}}
+      </a>
+    {%- else -%}
+      <a class="c-pagination__item" href="{{- site.paginate_path | relative_url | replace: ':num', pi -}}">
+        {{- pi -}}
+      </a>
+    {%- endif -%}
+  {%- endfor -%}
+
+  {%- if next_page_path -%}
+    <a class="c-pagination__item" href="{{- next_page_path -}}">
+      <i class="fas fa-angle-right"></i>
+    </a>
+  {%- else -%}
+    <div class="c-pagination__item">
+      <i class="fas fa-angle-right"></i>
+    </div>
+  {%- endif -%}
+
+  {%- if last_page_path -%}
+    <a class="c-pagination__item" href="{{- last_page_path -}}">
+      <i class="fas fa-angle-double-right"></i>
+    </a>
+  {%- else -%}
+    <div class="c-pagination__item">
+      <i class="fas fa-angle-double-right"></i>
+    </div>
+  {%- endif -%}
+
+</div>
+
+{%- assign return = total_page_number -%}

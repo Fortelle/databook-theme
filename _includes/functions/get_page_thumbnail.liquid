@@ -1,0 +1,23 @@
+{%- assign pageitem = include.page | default: page -%}
+{%- assign thumbnail_src = pageitem.thumbnail -%}
+
+{%- if thumbnail_src == nil and include.autodetect -%}
+  {%- assign html = include.html -%}
+  {%- unless html -%}
+    {%- assign html = pageitem.content | markdownify -%}
+  {%- endunless -%}
+
+  {%- assign slices = html | split:"<img " -%}
+  {%- if slices.size > 1 -%}
+    {%- assign attrs = slices[1] | split: ">" | first | replace: "'", '"' -%}
+    {%- assign slices = attrs | split: 'src="' -%}
+    {%- assign thumbnail_src = slices[1] | split: '"' | first -%}
+  {%- endif -%}
+
+  {%- if thumbnail_src.size == 0 and site.thumbnail_placeholder -%}
+    {%- assign thumbnail_src = site.thumbnail_placeholder -%}
+  {%- endif -%}
+  
+{%- endif -%}
+
+{{- thumbnail_src -}}

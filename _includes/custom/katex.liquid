@@ -1,0 +1,15 @@
+<script>
+  window.addEventListener("load", function () {
+    renderMathInElement(document.body, {
+      delimiters: [
+        { left: '\\(', right: '\\)', display: false }
+      ],
+      throwOnError: false
+    });
+    [...document.querySelectorAll('p')]
+    .filter(p => p.childElementCount == 0 && p.textContent.startsWith('[') && p.textContent.endsWith(']'))
+      .forEach(p => katex.render(p.textContent.replace(/^\[(.+)\]/, '$1'), p, {
+        displayMode: true
+      }));
+  });
+</script>

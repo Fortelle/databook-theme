@@ -1,0 +1,35 @@
+﻿.u-thinscrollbar {
+  overflow-y: scroll;
+
+  // entire scrollbar
+  &::-webkit-scrollbar {
+    width: 4px;
+    background-color: transparent;
+  }
+
+  // handle
+  &::-webkit-scrollbar-thumb {
+    border-radius: $border-radius-object;
+    background-color: transparent;
+  }
+
+  // track bar
+  &::-webkit-scrollbar-track {
+    display: none;
+  }
+
+  // arrow buttons
+  &::-webkit-scrollbar-button {
+    display: none;
+  }
+
+  &:hover {
+    &::-webkit-scrollbar-thumb {
+      background-color: hsl(var(--db-accent-color-h), var(--db-accent-color-s), 80%);
+
+      &:hover {
+        background-color: hsl(var(--db-accent-color-h), var(--db-accent-color-s), 70%);
+      }
+    }
+  }
+}

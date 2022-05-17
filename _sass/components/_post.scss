@@ -1,0 +1,19 @@
+.c-post-prevnext {
+  display: flex;
+  
+  &__prev,
+  &__next {
+    width: 40%;
+    border-radius:  $border-radius-object;
+    border: 1px solid var(--db-border-color);
+  }
+
+  &__next {
+    text-align: right;
+    margin-left: auto;
+  }
+
+  a {
+    display: block;
+  }
+}

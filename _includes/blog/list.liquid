@@ -1,0 +1,41 @@
+<div class="c-blog-list">
+  {%- for post in include.posts -%}
+    {%- assign html = post.content | markdownify -%}
+    {%- capture page_title -%}
+      {%- include functions/get_page_title.liquid page=post -%}
+    {%- endcapture -%}
+    {%- capture thumbnail -%}
+      {%- include functions/get_page_thumbnail.liquid page=post html=html autodetect=true -%}
+    {%- endcapture -%}
+
+    <div class="c-blog-list__item">
+      <div class="c-blog-list__title">
+      {%- if post.sticky -%}
+        <span class="c-blog-list__badge c-blog-list__badge--sticky">
+          <i class="fas fa-thumbtack fa-fw"></i>
+          {%- include localize key="tag_sticky" default="Sticky" -%}
+        </span>
+      {%- endif -%}
+      {%- if post.featured -%}
+        <span class="c-blog-list__badge c-blog-list__badge--featured">
+          <i class="fas fa-check fa-fw"></i>
+          {%- include localize key="tag_featured" default="Featured" -%}
+        </span>
+      {%- endif -%}
+      <a class="c-blog-list__link" href="{{- post.url | relative_url -}}">{{- page_title -}}</a>
+      </div>
+      <div class="c-blog-list__meta">
+        {%- include functions/get_page_meta.liquid page=post tags=true categories=true short_date=true details=false -%}
+      </div>
+      <div class="c-blog-list__content">
+        {{- html | strip_html | truncate: 256 -}}
+      </div>
+
+      {%- if thumbnail.size > 0 -%}
+        <div class="c-blog-list__thumbnail">
+          <img src="{{- thumbnail -}}" />
+        </div>
+      {%- endif -%}
+    </div>
+  {%- endfor -%}
+</div>

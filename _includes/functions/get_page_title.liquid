@@ -1,0 +1,7 @@
+{%- assign pageitem = include.page | default: page -%}
+
+{%- if pageitem.title_key -%}
+  {%- include localize key=pageitem.title_key default=pageitem.title -%}
+{%- else -%}
+  {{- pageitem.title -}}
+{%- endif -%}

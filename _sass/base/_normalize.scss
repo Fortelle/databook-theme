@@ -1,0 +1,45 @@
+html {
+  box-sizing: border-box;
+  font-size: 16px;
+  overflow-y: scroll;
+  font-family: Content, Roboto, sans-serif;
+  font-weight: normal;
+
+  *,
+  *:before,
+  *:after {
+    box-sizing: inherit;
+    margin: 0;
+    padding: 0;
+  }
+}
+
+body {
+  font-size: 1rem;
+  font-family:
+    "Helvetica Neue",
+    Helvetica,
+    Arial,
+    STXihei, "华文细黑",
+    "Microsoft YaHei", "微软雅黑",
+    Heiti, "黑体",
+    sans-serif;
+}
+
+template {
+  display: none;
+}
+
+[hidden] {
+  display: none;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+
+  &:hover {
+    color: inherit;
+    text-decoration: none;
+  }
+}

@@ -1,0 +1,53 @@
+{%- assign footer_data = include.data -%}
+
+{%- comment -%}todo: existence check{%- endcomment -%}
+{%- assign custom_footer_file = footer_data.custom_file | default: "custom/footer.liquid" -%}
+{%- capture custom_footer -%}
+  {%- include {{custom_footer_file}} -%}
+{%- endcapture -%}
+{%- assign custom_size = custom_footer | strip | strip_newlines | size -%}
+
+<footer class="l-footer">
+  {%- if custom_size > 0 -%}
+  <div class="l-footer__custom">
+    {{- custom_footer -}}
+  </div>
+  {%- endif -%}
+
+  {%- if footer_data.text -%}
+  <div class="l-footer__text">
+    {{- footer_data.text -}}
+  </div>
+  {%- endif -%}
+
+  <div class="l-footer__left">
+    <div class="c-footer-list">
+      {%- if footer_data.copyright or site.copyright -%}
+        <div class="c-footer-list__item">
+          {{- footer_data.copyright | default: site.copyright | markdownify | remove: "<p>" | remove: "</p>" -}}
+        </div>
+      {%- endif -%}
+      {%- if footer_data.links -%}
+      {%- for item in footer_data.links -%}
+        <div class="c-footer-list__item">
+        {%- if item.url -%}<a href="{{ item.url }}">{%- endif -%}
+          {{- item.text -}}
+        {%- if item.url -%}</a>{%- endif -%}
+        </div>
+      {%- endfor -%}
+      {%- endif -%}
+    </div>
+  </div>
+
+  <div class="l-footer__middle">
+  </div>
+
+  <div class="l-footer__right">
+    {%- if footer_data.provider or site.provider -%}
+      {{- footer_data.provider | default: site.provider | markdownify | remove: "<p>" | remove: "</p>" -}}
+    {%- else -%}
+      Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://github.com/fortelle/databook-theme" rel="nofollow">Databook</a>
+    {%- endif -%}
+  </div>
+
+</footer>

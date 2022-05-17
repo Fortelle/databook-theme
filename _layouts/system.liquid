@@ -1,0 +1,35 @@
+---
+layout: default
+comment: false
+toc: false
+---
+
+{%- assign hide_title = page.hide_title | default: layout.hide_title | default: false -%}
+
+{%- capture title -%}
+  {%- include functions/get_page_title.liquid -%}
+{%- endcapture -%}
+
+{%- capture header -%}
+{%- unless hide_title -%}
+  {%- include components/title.liquid
+    title = title
+    url = page.url
+    meta = page.subtitle
+  -%}
+{%- endunless -%}
+{%- endcapture -%}
+
+<div class="l-page">
+
+  {%- unless hide_title -%}
+  <div class="l-page__header">
+    {{- header -}}
+  </div>
+  {%- endunless -%}
+
+  <div class="l-page__content" >
+    {{- content | markdownify -}}
+  </div>
+
+</div>

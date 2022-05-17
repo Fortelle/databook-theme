@@ -1,0 +1,112 @@
+﻿@mixin scheme-light {
+  --db-accent-color-h: 223;
+  --db-accent-color-s: 5%;
+  --db-accent-color-l: 50%;
+  --db-accent-color: hsl(var(--db-accent-color-h), var(--db-accent-color-s), var(--db-accent-color-l));
+
+  --db-overlay-color-rgb: 0, 0, 0;
+  --db-hover-color-rgb: 255, 255, 255;
+
+
+  --db-background-color: hsl(0, 0%, 100%);
+  --db-background-hover-color: var(--db-surface-color);
+
+  --db-border-color: hsl(var(--db-accent-color-h), var(--db-accent-color-s), 80%);
+  --db-border-color-inactive: hsl(var(--db-accent-color-h), var(--db-accent-color-s), 90%);
+
+  --db-surface-color: hsl(var(--db-accent-color-h), var(--db-accent-color-s), 95%);
+  --db-surface-overlay: radial-gradient(#FFFFFF22, #FFFFFF00);
+  --db-surface-shadow-color: hsla(var(--db-accent-color-h), var(--db-accent-color-s), 50%, 33%);
+  --db-surface-hover-color: hsla(var(--db-accent-color-h), var(--db-accent-color-s), 50%, .2);
+
+  --db-control-color: hsl(var(--db-accent-color-h), calc(var(--db-accent-color-s) * 1.5), 33%);
+  --db-control-border-color: hsl(var(--db-accent-color-h), calc(var(--db-accent-color-s) * 1.5), 22%);
+  --db-control-text-color: hsl(var(--db-accent-color-h), var(--db-accent-color-s), 95%);
+  --db-control-shadow-color: hsla(var(--db-accent-color-h), var(--db-accent-color-s), 50%, 33%);
+  
+  --db-text-color-active: hsl(var(--db-accent-color-h), var(--db-accent-color-s), 5%);
+  --db-text-color-important: hsl(var(--db-accent-color-h), var(--db-accent-color-s), 15%);
+  --db-text-color-inactive: hsl(var(--db-accent-color-h), calc(var(--db-accent-color-s) * .66), 40%);
+  --db-text-color-disabled: hsl(var(--db-accent-color-h), calc(var(--db-accent-color-s) * .33), 60%);
+
+  --db-highlight-color: hsla(var(--db-accent-color-h), var(--db-accent-color-s), 50%, 15%);
+  --db-highlight-color-hover: hsla(var(--db-accent-color-h), var(--db-accent-color-s), 50%, 20%);
+}
+
+@mixin scheme-dark {
+  --db-accent-color-h: 223;
+  --db-accent-color-s: 5%;
+  --db-accent-color-l: 50%;
+  --db-accent-color: hsl(var(--db-accent-color-h), var(--db-accent-color-s), var(--db-accent-color-l));
+  
+  --db-overlay-color-rgb: 255, 255, 255;
+  --db-hover-color-rgb: 0, 0, 0;
+
+  --db-background-color: hsl(var(--db-accent-color-h), var(--db-accent-color-s), 8%);
+  --db-background-hover-color: var(--db-surface-color);
+  
+  --db-border-color: hsl(var(--db-accent-color-h), var(--db-accent-color-s), 30%);
+  --db-border-color-inactive: hsl(var(--db-accent-color-h), var(--db-accent-color-s), 20%);
+
+  --db-surface-color: hsl(var(--db-accent-color-h), var(--db-accent-color-s), 15%);
+  --db-surface-overlay: radial-gradient(#FFFFFF11, #FFFFFF11);
+  --db-surface-hover-color: hsla(var(--db-accent-color-h), var(--db-accent-color-s), 50%, 80%);
+  --db-surface-shadow-color: transparent;
+
+  --db-control-color: hsl(var(--db-accent-color-h), calc(var(--db-accent-color-s) * .3), 70%);
+  --db-control-border-color: hsl(var(--db-accent-color-h), calc(var(--db-accent-color-s) * .3), 80%);
+  --db-control-text-color: hsl(var(--db-accent-color-h), var(--db-accent-color-s), 15%);
+  --db-control-shadow-color: transparent;
+
+  --db-text-color-active: hsl(var(--db-accent-color-h), var(--db-accent-color-s), 95%);
+  --db-text-color-important: hsl(var(--db-accent-color-h), var(--db-accent-color-s), 85%);
+  --db-text-color-inactive: hsl(var(--db-accent-color-h), var(--db-accent-color-s), 60%);
+  --db-text-color-disabled: hsl(var(--db-accent-color-h), var(--db-accent-color-s), 40%);
+  
+  --db-highlight-color: hsla(var(--db-accent-color-h), var(--db-accent-color-s), 50%, 85%);
+  --db-highlight-color-hover: hsla(var(--db-accent-color-h), var(--db-accent-color-s), 50%, 80%);
+  
+  img {
+    filter: brightness(.8) contrast(1.2);
+  }
+}
+
+:root {
+  color-scheme: normal;
+
+  &[data-color-scheme="light"] {
+    color-scheme: light;
+  }
+
+  @include scheme-light;
+
+  @media (prefers-color-scheme: dark) {
+    @include scheme-dark;
+  }
+
+  &[data-color-scheme="dark"] {
+    color-scheme: dark;
+    @include scheme-dark;
+  }
+
+  &[data-accent-color="red"] {
+    --db-accent-color-h: 2;
+  }
+  &[data-accent-color="yellow"] {
+    --db-accent-color-h: 37;
+  }
+  &[data-accent-color="green"] {
+    --db-accent-color-h: 137;
+  }
+  &[data-accent-color="blue"] {
+    --db-accent-color-h: 223;
+  }
+  &[data-accent-color="purple"] {
+    --db-accent-color-h: 293;
+  }
+  &[data-accent-color] {
+    --db-accent-color-s: 66%;
+    accent-color: var(--db-accent-color);
+  }
+  
+}

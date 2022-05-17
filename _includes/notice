@@ -1,0 +1,6 @@
+<div class="c-notice c-notice--type-{{- include.type | default: info -}}">
+  {%- if include.title -%}
+    <div class="c-notice__header">{{- include.title | markdownify | remove: "<p>" | remove: "</p>" -}}</div>
+  {%- endif -%}
+  <div class="c-notice__body">{{- include.text | markdownify | remove: "<p>" | remove: "</p>" -}}</div>
+</div>

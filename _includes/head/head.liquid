@@ -1,0 +1,12 @@
+  <head>
+    {% include head/meta.liquid %}
+    {% include head/opengraph.liquid %}
+    {% include head/requirements.liquid %}
+    {% include head/styles.liquid %}
+
+    {%- if jekyll.environment == "production" -%}
+      {%- include components/analytics.liquid -%}
+    {%- endif %}
+
+    {% include custom/head.liquid %}
+  </head>

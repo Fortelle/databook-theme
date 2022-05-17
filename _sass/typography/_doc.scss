@@ -1,0 +1,104 @@
+$background-color: var(--db-surface-color);
+$border-color: var(--db-accent-color);
+
+.l-typography--doc {
+  h1 {
+    --db-h-font-size: 2rem;
+    --db-h-padding: 1rem;
+    --db-h-margin: 2rem;
+    --db-h-border-width: 1.5rem;
+    --db-h-background-color: #{$border-color};
+    --db-h-color: var(--db-control-text-color);
+    --db-h-border-left: #{$border-color};
+    --db-h-border-radius: #{$border-radius-object} 0 0 #{$border-radius-object};
+  }
+  h2 {
+    --db-h-font-size: 1.75rem;
+    --db-h-padding: .5rem 1rem;
+    --db-h-margin: 1.5rem;
+    --db-h-border-width: .8rem;
+    --db-h-background-color: #{$background-color};
+    --db-h-border-left: #{$border-color};
+    --db-h-border-bottom: #{$border-color};
+    --db-h-border-radius: #{$border-radius-object} 0 0 #{$border-radius-object};
+  }
+  h3 {
+    --db-h-font-size: 1.5rem;
+    --db-h-padding: .5rem .5rem;
+    --db-h-margin: 1.75rem;
+    --db-h-border-width: .6rem;
+    --db-h-border-left: #{$border-color};
+    --db-h-border-bottom: #{$border-color};
+    --db-h-border-radius: #{$border-radius-object} #{$border-radius-object} 0 #{$border-radius-object};
+  }
+  h4 {
+    --db-h-font-size: 1.4rem;
+    --db-h-padding: .25rem .5rem;
+    --db-h-border-width: .5rem;
+    --db-h-margin: 1.5rem;
+    --db-h-border-left: #{$border-color};
+    --db-h-border-radius: #{$border-radius-object};
+  }
+  h5 {
+    --db-h-font-size: 1.3rem;
+    --db-h-padding: 0 .5rem;
+    --db-h-border-width: .4rem;
+    --db-h-margin: 1rem;
+    --db-h-border-left: #{$border-color};
+    --db-h-border-radius: #{$border-radius-object};
+  }
+  h6 {
+    --db-h-font-size: 1.2rem;
+    --db-h-padding: 0 .5rem;
+    --db-h-border-width: .3rem;
+    --db-h-margin: 1rem;
+    --db-h-border-left: #{$border-color};
+    --db-h-border-radius: #{$border-radius-object};
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    position: relative;
+    background-color: var(--db-h-background-color);
+    font-weight: bold;
+    color: var(--db-h-color, var(--db-text-color-important));
+    font-size: var(--db-h-font-size);
+    padding: var(--db-h-padding);
+    margin-bottom: var(--db-h-margin);
+
+    &:not(:first-child) {
+      margin-top: var(--db-h-margin);
+    }
+
+    &::before {
+      background-color: var(--db-h-border-left, unset);
+      content: "";
+      width: var(--db-h-border-width);
+      left: calc(0px - var(--db-h-border-width));
+      height: 100%;
+      position: absolute;
+      top: 0;
+      border-radius: var(--db-h-border-radius, unset);
+    }
+
+    &::after {
+      background-color: var(--db-h-border-bottom, unset);
+      content: "";
+      width: 100%;
+      left: 0;
+      bottom: 0;
+      height: 1px;
+      position: absolute;
+    }
+    
+  }
+
+  h1 {
+    border-radius: 0 #{$border-radius-object} #{$border-radius-object} 0;
+  }
+
+  blockquote {
+    h1, h2, h3, h4, h5, h6 {
+      margin-left: 1rem;
+    }
+  }
+}

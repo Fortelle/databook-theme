@@ -1,0 +1,27 @@
+.c-notice {
+  border: 1px solid var(--db-border-color);
+  background-color: var(--db-background-color);
+  border-radius: $border-radius-object;
+  margin-top: $spacing-unit / 2;
+  margin-bottom: $spacing-unit / 2;
+  padding: $spacing-unit / 4 $spacing-unit / 2;
+  border-left-width: $border-radius-object * 2;
+
+  &__header {
+    font-weight: bold;
+    margin-bottom: $spacing-unit / 4;
+    &:empty {
+      display: none;
+    }
+  }
+
+  &--inline {
+    .c-notice__header {
+      display: inline;
+      &::after {
+        content: ':';
+        margin-right: 1em;
+      }
+    }
+  }
+}

@@ -1,0 +1,28 @@
+{%- include functions/get_config.liquid key="toc" -%}
+{%- assign use_toc = return | default: false -%}
+{%- assign toc_level = site.toc_level | default: 4 -%}
+
+{%- if use_toc -%}
+  {%- assign has_header = false -%}
+  {%- for i in (1..toc_level) -%}
+    {%- assign header_tag = "<h" | append: i -%}
+    {%- if include.html contains header_tag -%}
+      {%- assign has_header = true -%}
+    {%- endif -%}
+  {%- endfor -%}
+  {%- if has_header -%}
+    <div class="c-toc">
+      <div class="c-toc__header"><i class="fas fa-stream"></i>&nbsp;{%- include localize key="toc" default="Contents" -%}</div>
+      <div class="c-toc__content">
+        {%- include extensions/toc.liquid
+          html=include.html
+          ordered=true
+          item_class="c-toc__item"
+          anchor_class="c-toc__link"
+          h_min=1
+          h_max=toc_level
+          -%}
+      </div>
+    </div>
+  {%- endif -%}
+{%- endif -%}

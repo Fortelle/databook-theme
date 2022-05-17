@@ -1,0 +1,50 @@
+{%- assign sticky_posts = site.posts | sort: "date" | where_exp: "item", "item.sticky == true" -%}
+{%- assign normal_posts = site.posts | sort: "date" | where_exp: "item", "item.sticky != true" -%}
+{%- assign posts = sticky_posts | concat: normal_posts -%}
+{%- assign page_number = include.page_number | default: 1 -%}
+
+{%- if paginator -%}{%- comment -%}Obsolete{%- endcomment -%}
+  {%- assign page_number = paginator.page | default: 1 -%}
+  {%- assign post_begin = page_number | minus: 1 | times: paginator.per_page -%}
+  {%- assign post_count = paginator.posts.size -%}
+{%- elsif site.plugins contains "jekyll-paginate" and site.paginate > 0 -%}
+  {%- assign post_begin = page_number | default: 1 | minus: 1 | times: site.paginate -%}
+  {%- assign post_count = site.paginate -%}
+{%- else -%}
+  {%- assign post_begin = 0 -%}
+  {%- assign post_count = posts.size -%}
+{%- endif -%}
+
+{%- assign selected_posts = posts | slice: post_begin, post_count -%}
+
+{%- capture pagination -%}
+  {%- if site.posts.size > site.paginate -%}
+    {%- include components/pagination.liquid page_number=page_number -%}
+  {%- endif -%}
+{%- endcapture -%}
+
+{%- assign blog_style = include.style | default: page.blog_style | default: layout.blog_style | default: site.blog_style | default: "full" -%}
+
+{%- if blog_style == "full" -%}
+  {%- include blog/full.liquid posts=selected_posts -%}
+{%- else -%}
+  {%- capture blog_content -%}
+    {%- case blog_style -%}
+    {%- when "list" -%}
+      {%- include blog/list.liquid posts=selected_posts -%}
+    {%- when "custom" -%}
+      {%- include custom/blog.liquid posts=selected_posts -%}
+    {%- endcase -%}
+  {%- endcapture -%}
+  {%- include layout/page.liquid
+    type = "blog"
+    content = blog_content
+  -%}
+{%- endif -%}
+
+{%- if pagination.size > 0 -%}
+  {%- include layout/page.liquid
+    type = "pagination"
+    content = pagination
+  -%}
+{%- endif -%}

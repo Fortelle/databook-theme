@@ -1,0 +1,178 @@
+{%- assign sidebar_data = include.data -%}
+
+<input type="checkbox" id="sidebar-toggler" class="h-toggler"/>
+<aside class="l-sidebar {%- if sidebar_data.sticky %} l-sidebar--sticky{%- endif %}" {%- if sidebar_data.width %} style="--db-sidebar-width: {{sidebar_data.width}};"{%- endif -%}>
+  {%- if sidebar_data.header != false -%}
+  <div class="l-sidebar__header">
+    <a class="c-logo" href="{{ '/' | relative_url }}">
+      <img class="c-logo__image" src="{{ sidebar_data.header.logo | default: site.logo | relative_url }}" alt="Logo" />
+      <span class="c-logo__text">{{- sidebar_data.header.text | default: site.logo_text | default: site.title | escape -}}</span>
+    </a>
+  </div>
+  {%- elsif sidebar_data.header_html -%}
+  <div class="l-sidebar__header">
+    {{- sidebar_data.header_html -}}
+  </div>
+  {%- endif -%}
+
+  <div class="l-sidebar__body u-thinscrollbar">
+  {%- if sidebar_data.profile -%}
+    <div class="c-profile">
+      {%- if sidebar_data.profile.image -%}
+      <div class="c-profile__image">
+        <img src="{{sidebar_data.profile.image}}" />
+      </div>
+      {%- endif -%}
+      <div class="c-profile__title">
+        {{- sidebar_data.profile.title | default: sidebar_data.profile.name -}}
+      </div>
+      <div class="c-profile__subtitle">
+        {{- sidebar_data.profile.subtitle | default: sidebar_data.profile.nickname | markdownify | remove: "<p>" | remove: "</p>" -}}
+      </div>
+      <div class="c-profile__description">
+        {{- sidebar_data.profile.bio | default: sidebar_data.profile.description | markdownify | remove: "<p>" | remove: "</p>" -}}
+      </div>
+    </div>
+  {%- endif -%}
+
+  {%- if sidebar_data.socials -%}
+    <table class="c-sociallist">
+    {%- for item in sidebar_data.socials -%}
+      {%- assign social = site.data.socials.[item.name] | default: site.data.databook.socials.[item.name] | default: site.data.databook.socials.link -%}
+      {%- assign text = item.text | default: social.text | default: item.value -%}
+      {%- assign url = item.url | default: social.url | replace: ":value", item.value | default: false -%}
+      {%- assign icon = item.icon | default: social.icon | default: false -%}
+      {%- include components/social_link.liquid url=url text=text icon=icon -%}
+    {%- endfor -%}
+    </table>
+  {%- endif -%}
+  
+  {%- if sidebar_data.links -%}
+    <div class="c-navlist">
+      {%- for item in sidebar_data.links -%}
+        {%- assign is_active = false -%}
+        {%- if item.url == page.url -%}
+          {%- assign is_active = true -%}
+        {%- elsif item.prefix -%}
+          {%- assign prefix_checker = page.url | split: item.prefix -%}
+          {%- if prefix_checker.size > 1 and prefix_checker[0].size == 0 and prefix_checker[1].size > 0 -%}{%- assign is_active = true -%}{%- endif -%}
+        {%- endif -%}
+        <div class="c-navlist__item {%- if is_active %} is-active{%- endif -%}">
+          <a class="c-navlist__link" href="{{ item.url }}">
+            {{- item.text -}}
+          </a>
+        </div>
+      {%- endfor -%}
+    </div>
+  {%- endif -%}
+
+  {%- if sidebar_data.navigation -%}
+    <div class="c-navtree">
+      {%- for group in sidebar_data.navigation -%}
+        <div class="c-navtree__group {%- if group.bottom %} c-navtree__group--bottom{%- endif -%}">
+        <div class="c-navtree__label">
+          {{- group.text -}}
+        </div>
+        {%- for item in group.items -%}
+          {%- if item.text == "-" -%}
+            <div class="c-navmenu__divider"></div>
+          {%- else -%}
+            {%- assign is_expanded = false -%}
+            {%- if item.expanded or group.expanded or sidebar_data.expanded -%}
+              {%- assign is_expanded = true -%}
+            {%- elsif item.url == page.url -%}
+              {%- assign is_expanded = true -%}
+            {%- else -%}
+              {%- assign subitem_checker = item.items | where: "url", page.url | first -%}
+              {%- if subitem_checker -%}
+                {%- assign is_expanded = true -%}
+              {%- endif -%}
+            {%- endif -%}
+            {%- assign is_enabled = true -%}
+            {%- if item.url == nil and item.items == nil -%}
+              {%- assign is_enabled = false -%}
+            {%- endif -%}
+            {%- assign icon = item.icon | default: group.item_icon -%}
+            <div class="c-navtree__item {%- if item.disabled %} is-disabled{%- elsif item.url == page.url %} is-active{%- endif -%} {%- if is_expanded %} is-expanded{%- endif -%}">
+              {%- if item.disabled -%}
+                <a class="c-navtree__link"
+              {%- elsif item.url -%}
+                <a class="c-navtree__link" href="{{ item.url }}" {%- if item.external %} target="_blank"{%- endif -%}
+              {%- elsif item.onclick -%}
+                <a class="c-navtree__link" href="javascript:void(0);" onclick="{{ item.onclick }}"
+              {%- elsif item.items -%}
+                <a class="c-navtree__link" onclick="this.parentNode.classList.toggle('is-expanded');return false;"
+              {%- else -%}
+                <a class="c-navtree__link"
+              {%- endif -%}
+                {%- if item.title %} title="{{item.title}}"{%- endif -%}>
+                <div class="c-navtree__icon">{%- if icon -%}{%- include functions/get_icon.liquid icon=icon -%}{%- endif -%}</i></div>
+                <div class="c-navtree__text">{{ item.text }}</div>
+                {%- if item.badge -%}
+                <div class="c-navtree__badge">{%- include functions/get_icon.liquid icon=item.badge -%}</div>
+                {%- elsif item.external -%}
+                <div class="c-navtree__badge">{%- include functions/get_icon.liquid icon="fa fa-arrow-up-right-from-square" -%}</div>
+                {%- endif -%}
+              </a>
+              {%- if item.button -%}
+                {%- if item.button.url -%}
+                  <a class="c-navtree__button" href="{{ item.button.url }}" {%- if item.button.external %} target="_blank"{%- endif -%}
+                {%- elsif item.button.onclick -%}
+                  <a class="c-navtree__button" href="javascript:void(0);" onclick="{{ item.button.onclick }}"
+                {%- else -%}
+                  <a class="c-navtree__button"
+                {%- endif -%}
+                  {%- if item.button.title %} title="{{item.button.title}}"{%- endif -%}>
+                  {%- include functions/get_icon.liquid icon=item.button.icon -%}
+                </a>
+              {%- elsif item.items -%}
+                <div class="c-navtree__button c-navtree__button--toggle" onclick="this.parentNode.classList.toggle('is-expanded');return false;"></div>
+              {%- endif -%}
+            </div>
+            {%- if item.items -%}
+            <div class="c-navtree__list">
+              {%- for subitem in item.items -%}
+              <div class="c-navtree__item {%- if subitem.url == page.url %} is-active{%- endif -%}">
+                {%- if subitem.url -%}
+                  <a class="c-navtree__link" href="{{ subitem.url }}">
+                {%- elsif subitem.onclick -%}
+                  <a class="c-navtree__link" href="javascript:void(0);" onclick="{{ subitem.onclick }};document.activeElement.blur();">
+                {%- else -%}
+                  <a class="c-navtree__link">
+                {%- endif -%}
+                  <div class="c-navtree__text">{{ subitem.text }}</div>
+                </a>
+              </div>
+              {%- endfor -%}
+            </div>
+            {%- endif -%}
+          {%- endif -%}
+        {%- endfor -%}
+        </div>
+      {%- endfor -%}
+    </div>
+  {%- endif -%}
+
+  {%- if sidebar_data.buttons -%}
+    <div class="c-sidebuttons">
+      {%- for item in sidebar_data.buttons -%}
+        {%- if item.name -%}
+          {%- assign social = site.data.socials.[item.name] | default: site.data.databook.socials.[item.name] | default: site.data.databook.socials.link -%}
+          {%- assign text = item.text | default: social.text | default: item.value -%}
+          {%- assign url = item.url | default: social.url | replace: ":value", item.value | default: false -%}
+          {%- assign icon = item.icon | default: social.icon | default: false -%}
+          {%- include components/social_button.liquid url=url text=text icon=icon -%}
+        {%- else -%}
+          {%- include components/social_button.liquid url=item.url text=item.text icon=item.icon -%}
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  {%- endif -%}
+  </div>
+
+  {%- if sidebar_data.footer_html -%}
+    <div class="l-sidebar__footer">
+      {{- sidebar_data.footer_html -}}
+    </div>
+  {%- endif -%}
+</aside>

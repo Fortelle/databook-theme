@@ -1,0 +1,36 @@
+{%- assign count = include.count | default: 3 -%}
+{%- assign posts = include.posts -%}
+{%- unless posts -%}
+  {%- include functions/get_recent_posts.liquid count=count -%}
+  {%- assign posts = return -%}
+{%- endunless -%}
+
+<div class="c-blog-grid">
+  {%- for post in posts -%}
+    {%- assign html = post.content | markdownify -%}
+    {%- capture page_title -%}
+      {%- include functions/get_page_title.liquid page=post -%}
+    {%- endcapture -%}
+    {%- capture thumbnail -%}
+      {%- include functions/get_page_thumbnail.liquid page=post html=html autodetect=true -%}
+    {%- endcapture -%}
+
+    <a class="c-blog-grid__item" href="{{- post.url | relative_url -}}">
+      <div class="c-blog-grid__thumbnail">
+        {%- if thumbnail.size > 0 -%}
+            <img src="{{- thumbnail -}}" />
+        {%- endif -%}
+      </div>
+      <div class="c-blog-grid__body">
+        <div class="c-blog-grid__title">
+            {{- page_title -}}
+        </div>
+        <div class="c-blog-grid__content">
+          {{- html | strip_html | truncate: 200 -}}
+        </div>
+      </div>
+      <div class="c-blog-grid__footer">
+      </div>
+    </a>
+  {%- endfor -%}
+</div>

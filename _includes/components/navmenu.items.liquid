@@ -1,0 +1,51 @@
+{%- if include.items -%}
+
+  <div class="c-navmenu__menu">
+    {%- for item in include.items -%}
+      {%- if item.text == "-" -%}
+        <div class="c-navmenu__divider"></div>
+      {%- else -%}
+        <div class="c-navmenu__item">
+          {%- if item.url -%}
+            <a class="c-navmenu__text" href="{{- item.url | relative_url -}}">
+              {%- if item.icon -%}{%- include functions/get_icon.liquid icon=item.icon -%}{%- endif -%}{{- item.text -}}
+            </a>
+          {%- elsif item.onclick -%}
+            <a class="c-navmenu__text" href="javascript:void(0);" onclick="{{ item.onclick }};document.activeElement.blur();">
+              {%- if item.icon -%}{%- include functions/get_icon.liquid icon=item.icon -%}{%- endif -%}{{- item.text -}}
+            </a>
+          {%- else -%}
+            <div class="c-navmenu__text">
+              {%- if item.icon -%}{%- include functions/get_icon.liquid icon=item.icon -%}{%- endif -%}{{- item.text -}}
+            </div>
+          {%- endif -%}
+          {%- if item.items -%}
+            {%- include components/navmenu.items.liquid items=item.items -%}
+          {%- elsif item.taxonomy -%}
+            {%- include components/navmenu.items.liquid taxonomy=item.taxonomy -%}
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+    {%- endfor -%}
+  </div>
+
+{%- elsif include.taxonomy -%}
+  {%- case include.taxonomy -%}
+    {%- when "categories" -%}
+      {%- assign collection = site.categories -%}
+    {%- when "tags" -%}
+      {%- assign collection = site.tags -%}
+  {%- endcase -%}
+
+  <div class="c-navmenu__menu">
+    {%- for item in collection -%}
+      {%- assign text = item | first -%}
+      <div class="c-navmenu__item">
+        <a class="c-navmenu__text" href="/{{- include.taxonomy -}}/#!/{{- text | url_encode -}}">
+          {{- text -}} <small>({{- item | last | size -}})</small>
+        </a>
+      </div>
+    {%- endfor -%}
+  </div>
+
+{%- endif -%}

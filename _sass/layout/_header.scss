@@ -1,0 +1,124 @@
+﻿:root {
+  --db-header-vertical-padding: 0;
+  --db-header-horizontal-padding: calc((var(--db-header-height) - #{$header-object-size}) / 2);
+
+  @media #{$large-screen} {
+    --db-header-horizontal-padding: #{$page-spacing-large};
+  }
+
+  @media #{$wide-screen} {
+    --db-header-horizontal-padding: calc( (100% - #{$page-max-width}) / 2 );
+
+    .l-wrapper.is-wide {
+      --db-header-horizontal-padding: #{$page-spacing-wide};
+    }
+  }
+
+}
+
+.l-wrapper.has-sidebar {
+  --db-header-horizontal-padding: calc((var(--db-header-height) - #{$header-object-size}) / 2);
+}
+
+
+.l-header {
+  background-color: var(--db-background-color);
+  border-bottom: 1px solid var(--db-border-color);
+  display: flex;
+  flex-direction: row;
+  height: var(--db-header-height);
+  z-index: 999;
+  width: 100%;
+  padding: 0 var(--db-header-horizontal-padding);
+  color: var(--db-text-color-inactive);
+
+  @media #{$large-screen} {
+    box-shadow: none;
+  }
+
+  &__logo {
+    order: 3;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+
+    @media #{$large-screen} {
+      order: 1;
+      @at-root .l-wrapper.has-sidebar #{&} {
+        display: none;
+        @media print {
+          display: initial;
+        }
+      }
+    }
+  }
+  
+  &__left {
+    order: 2;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex: 1;
+
+    @media print {
+      display: none;
+    }
+  }
+
+  &__right {
+    order: 4;
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+    flex: 1;
+    justify-content: flex-end;
+
+    @media print {
+      display: none;
+    }
+  }
+  
+
+  &--sticky {
+    position: sticky;
+    top: 0;
+  }
+
+
+}
+
+
+.l-wrapper.has-background .l-header {
+  background-color: rgba( var(--db-overlay-color-rgb), 5%);
+  border-bottom-color: transparent;
+}
+
+
+.c-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1em;
+  color: var(--db-text-color-important);
+  height: 1.5rem;
+
+  &__image {
+    height: 100%;
+    margin-right: 1rem;
+  }
+
+  &__text {
+    font-weight: bold;
+    letter-spacing: 2px;
+    white-space: nowrap;
+  }
+
+  @media #{$medium-screen} {
+    font-size: 1.4em;
+    height: 2rem;
+  }
+  
+  &:hover {
+    color: initial;
+  }
+}

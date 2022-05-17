@@ -1,0 +1,11 @@
+{%- assign provider = site.analytics -%}
+{%- if page.analytics == false -%}
+  {%- assign provider = false -%}
+{%- endif -%}
+
+{%- case provider -%}
+  {%- when "google_analytics" -%}
+    {%- include components/analytics.google.liquid -%}
+  {%- when "custom" -%}
+    {%- include custom/analytics.liquid -%}
+{%- endcase -%}

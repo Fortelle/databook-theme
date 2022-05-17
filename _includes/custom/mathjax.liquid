@@ -1,0 +1,19 @@
+<script>
+  window.MathJax = {
+    tex: {
+      inlineMath: [
+        ['\\(', '\\)'],
+      ],
+    },
+    options: {
+      renderActions: {
+        addMenu: []
+      }
+    },
+  };
+  window.addEventListener("load", function() {
+    [...document.querySelectorAll('p')]
+      .filter(p => p.childElementCount == 0 && p.textContent.startsWith('[') && p.textContent.endsWith(']'))
+      .forEach(p => p.replaceChildren(MathJax.tex2chtml(p.textContent.replace(/^\[(.+)\]/, '$1'))));
+  });
+</script>

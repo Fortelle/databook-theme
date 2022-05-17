@@ -1,0 +1,71 @@
+{%- assign pageitem = include.page | default: page -%}
+{%- assign html_content = include.content | default: pageitem.content -%}
+
+{%- assign typography = pageitem.typography | default: layout.typography | default: site.typography | default: "article" -%}
+{%- assign hide_title = pageitem.hide_title -%}
+
+{%- capture page_title -%}
+  {%- include functions/get_page_title.liquid page=pageitem -%}
+{%- endcapture -%}
+
+{%- capture page_meta -%}
+  {%- include functions/get_page_meta.liquid
+    page = pageitem
+    tags = true
+    authors = true
+    details = true
+  -%}
+{%- endcapture -%}
+
+{%- capture breadcrumb -%}
+  <div class="c-breadcrumb">
+    <span class="c-breadcrumb__item">
+      <a href="{{- '/' | relative_url -}}">{%- include localize key="title_home" default="Home" -%}</a>
+    </span>
+    {%- for category in pageitem.categories -%}
+      <span class="c-breadcrumb__item">
+        <a href="{%- include functions/get_taxonomy_link.liquid category=category -%}">{{- category -}}</a>
+      </span>
+    {%- endfor -%}
+  </div>
+{%- endcapture -%}
+
+{%- capture page_header -%}
+{%- unless hide_title -%}
+  {%- include components/title.liquid
+    breadcrumb = breadcrumb
+    title = page_title
+    url = pageitem.url
+    meta = page_meta
+  -%}
+{%- endunless -%}
+{%- endcapture -%}
+
+{%- assign has_side = include.has_side -%}
+{%- assign page_side = false -%}
+{%- if has_side -%}
+  {%- capture page_side -%}
+    {%- include components/toc.liquid html=html_content -%}
+  {%- endcapture -%}
+{%- endif -%}
+
+{%- capture page_content -%}
+  {%- if pageitem.thumbnail -%}
+    <img class="c-thumbnail" src="{{- pageitem.thumbnail -}}" />
+  {%- endif -%}
+  {{- html_content -}}
+{%- endcapture -%}
+
+{%- capture page_footer -%}
+  {%- include components/prevnext.liquid -%}
+{%- endcapture -%}
+
+{%- include layout/page.liquid
+  type = "article"
+  src = pageitem.url
+  header = page_header
+  content = page_content
+  side = page_side
+  footer = page_footer
+  typography = typography
+-%}
