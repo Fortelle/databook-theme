@@ -1,8 +1,8 @@
 {%- assign pageitem = include.page | default: page -%}
-{%- assign html_content = include.content | default: pageitem.content -%}
+{%- assign html_content = include.content | default: pageitem.content | markdownify -%}
 
-{%- assign typography = pageitem.typography | default: layout.typography | default: site.typography | default: "article" -%}
-{%- assign hide_title = pageitem.hide_title -%}
+{%- assign typography = include.typography | default: pageitem.typography | default: layout.typography | default: site.typography | default: "article" -%}
+{%- assign hide_title = include.hide_title | default: pageitem.hide_title -%}
 
 {%- capture page_title -%}
   {%- include functions/get_page_title.liquid page=pageitem -%}
@@ -50,8 +50,11 @@
 {%- endif -%}
 
 {%- capture page_content -%}
-  {%- if pageitem.thumbnail -%}
-    <img class="c-thumbnail" src="{{- pageitem.thumbnail -}}" />
+  {%- assign thumbnail_src = pageitem.thumbnail | default: pageitem.image.path | default: pageitem.image -%}
+  {%- if thumbnail_src -%}
+    <div class="c-thumbnail">
+      <img src="{{- thumbnail_src -}}" />
+    </div>
   {%- endif -%}
   {{- html_content -}}
 {%- endcapture -%}

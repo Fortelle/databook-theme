@@ -8,7 +8,7 @@ toc: false
 {%- assign content_size = content | strip | strip_newlines | size -%}
 
 {%- if page.url == "/" and content_size > 0 -%}
-  {%- include layout/page.liquid
+  {%- include layout/article.liquid
     type = "home"
     content=content
     hide_title=true

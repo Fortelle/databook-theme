@@ -64,11 +64,6 @@
     padding: .5em 1rem;
 
     display: block;
-
-    &::before {
-      content: ' ';
-      color: white;
-    }
   }
   
   code.language-plaintext {

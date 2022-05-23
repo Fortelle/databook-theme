@@ -4,7 +4,7 @@
 {%- if thumbnail_src == nil and include.autodetect -%}
   {%- assign html = include.html -%}
   {%- unless html -%}
-    {%- assign html = pageitem.content | markdownify -%}
+    {%- assign html = pageitem.content -%}
   {%- endunless -%}
 
   {%- assign slices = html | split:"<img " -%}
