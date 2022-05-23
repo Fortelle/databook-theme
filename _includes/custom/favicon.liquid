@@ -1,0 +1,11 @@
+{%- assign favicon = site.favicon -%}
+{%- unless favicon -%}
+  {% assign has_favicon = site.static_files | where_exp: "file", "file.path == '/favicon.ico'" | size %}
+  {%- if has_favicon > 0 -%}
+    {%- assign favicon = "/favicon.ico" -%}
+  {%- else -%}
+    {%- assign favicon = "/assets/favicon.ico" -%}
+  {%- endif -%}
+{%- endunless -%}
+
+<link rel="icon" type="image/x-icon" href="{{- favicon | relative_url -}}">
