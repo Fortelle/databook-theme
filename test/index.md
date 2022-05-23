@@ -13,55 +13,55 @@ sidebar:
           items:
             -
               text:   "Blog"
-              url:    "./sidebar_blog.html"
+              url:    "sidebar_blog.html"
             -
               text:   "Profile"
-              url:    "./sidebar_profile.html"
+              url:    "sidebar_profile.html"
             -
               text:   "Document"
-              url:    "./sidebar_doc.html"
+              url:    "sidebar_doc.html"
         -
           text:   "Header"
           items:
             -
               text:   "Header"
-              url:    "/test/header.html"
+              url:    "header.html"
         -
           text:   "Footer"
           items:
             -
               text:   "With sidebar"
-              url:    "/test/footer_with_sidebar.html"
+              url:    "footer_with_sidebar.html"
             -
               text:   "Without sidebar"
-              url:    "/test/footer_without_sidebar.html"
+              url:    "footer_without_sidebar.html"
     -
       text:       "Styles"
       items:
         -
           text:   "Scheme"
-          url:    "/test/scheme.html"
+          url:    "scheme.html"
         -
           text:   "Typography"
-          url:    "/test/typography.html"
+          url:    "typography.html"
         -
           text:   "Lorem ipsum"
-          url:    "/test/lorem_ipsum.html"
+          url:    "lorem_ipsum.html"
     -
       text:       "Components"
       items:
         -
           text:   "Math"
-          url:    "/test/math.html"
+          url:    "math.html"
         -
           text:   "Diagram"
-          url:    "/test/diagram.html"
+          url:    "diagram.html"
     -
       text:       "Display"
       bottom:     true
       items:
         -
           text:   "Mockup"
-          url:    "/test/mockup/"
+          url:    "mockup/"
           icon:   "fas fa-tv"
 ---

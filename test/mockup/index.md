@@ -36,12 +36,15 @@ pages:
     --frame-width: 1280px;
     --frame-height: 720px;
     --count: {{pages.size}};
-    width: var(--canvas-width);
-    height: var(--canvas-height);
+
+    width: calc(var(--canvas-width) * (40 / 1280 * 2 + 1));
+    height: calc(var(--canvas-height) * (40 / 640 * 2 + 1));
     overflow: hidden;
     border: 1px solid #aaa;
     display: flex;
     flex-direction: row;
+
+    padding: calc( var(--canvas-height) * 40 / 640 ) calc( var(--canvas-width) * 40 / 1280 );
   }
 
   .page {
