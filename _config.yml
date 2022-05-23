@@ -13,21 +13,21 @@ title:          "Databook"
 description:    "A Jekyll theme for blogs and documentations."
 logo:           "assets/databook/img/logo.png" 
 copyright:      "© 2022 <a href='https://github.com/fortelle/databook-theme'>Databook</a>"
-keywords:       ""
+keywords:       #
 
 baseurl:        #
 encoding:       "utf-8"
-language:       "en-US"
+lang:           "en-US"
 npm_cdn:        "https://cdn.jsdelivr.net/npm/"
 repository:     "Fortelle/databook-theme"
-title_separator: "-"
+title_separator: "|"
 timezone:       #
 url:            #
 
 permalink:      "/:title:output_ext"
 typography:     "article"
 color_scheme:   "prefer" # "prefer", "light", "dark"
-accent_color:   "" # "red", "yellow", "green", "blue", "purple"...
+accent_color:   # "red", "yellow", "green", "blue", "purple"...
 sidebar:        #
 #sidebar_id:     ""
 header:         #
@@ -61,19 +61,28 @@ mathjax:        false
 mermaid:        false
 
 google_analytics:
-  id:           ""
+  id:           #
 
 disqus:
-  shortname:    ""
+  shortname:    #
 
 gitalk:
-  clientID:     ""
-  clientSecret: ""
-  repo:         ""
-  owner:        ""
-  proxy:        ""
+  clientID:     #
+  clientSecret: #
+  repo:         #
+  owner:        #
+  proxy:        #
 
 scrollspy: true
+
+twitter:
+  username:      #
+  card:          #
+
+facebook:
+  app_id:        #
+  publisher:     #
+  admins:        #
 
 ##
 ## Default settings

@@ -1,5 +1,5 @@
 {%- assign key = include.key -%}
-{%- assign code = include.language | default: page.language | default: site.language -%}
+{%- assign code = include.lang | default: page.lang | default: site.lang -%}
 {%- assign primary = code | split: "-" | first -%}
 {%- assign debug = "<span class="h-debug">" | append: key | append: "</span>" -%}
 

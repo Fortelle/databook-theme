@@ -1,5 +1,5 @@
 {%- assign pageitem = include.page | default: page -%}
-{%- assign thumbnail_src = pageitem.thumbnail -%}
+{%- assign thumbnail_src = pageitem.thumbnail | default: pageitem.image.path | default: pageitem.image -%}
 
 {%- if thumbnail_src == nil and include.autodetect -%}
   {%- assign html = include.html -%}
@@ -13,11 +13,10 @@
     {%- assign slices = attrs | split: 'src="' -%}
     {%- assign thumbnail_src = slices[1] | split: '"' | first -%}
   {%- endif -%}
+{%- endif -%}
 
-  {%- if thumbnail_src.size == 0 and site.thumbnail_placeholder -%}
-    {%- assign thumbnail_src = site.thumbnail_placeholder -%}
-  {%- endif -%}
-  
+{%- if thumbnail_src.size == 0 and site.thumbnail_placeholder -%}
+  {%- assign thumbnail_src = site.thumbnail_placeholder -%}
 {%- endif -%}
 
 {{- thumbnail_src -}}

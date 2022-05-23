@@ -3,13 +3,17 @@
   {%- assign robots = "noindex,nofollow" -%}
 {%- endif -%}
 
-{%- assign title_separator = site.title_separator | default: "-" -%}
+{%- assign title_separator = site.title_separator | default: "|" -%}
+{%- assign site_title = site.title | default: site.name -%}
+{%- assign site_description = site.tagline | default: site.description -%}
 {%- capture page_title -%}{%- include functions/get_page_title.liquid -%}{%- endcapture -%}
-{%- assign html_title = page_title -%}
-{%- if page.title -%}
-  {%- assign html_title = html_title | append: " " | append: title_separator | append: " " -%}
+
+{%- assign html_title = "" -%}
+{%- if page_title.size > 0 -%}
+  {%- assign html_title = page_title | append: " " | append: title_separator | append: " " | append: site.title -%}
+{%- else -%}
+  {%- assign html_title = site_title | append: " " | append: title_separator | append: " " | append: site_description -%}
 {%- endif -%}
-{%- assign html_title = html_title | append: site.title -%}
 
 
     <meta charset="{{- site.encoding | default: 'utf-8' -}}">
@@ -20,11 +24,15 @@
     {%- if site.baseurl -%}<base href="{{- site.baseurl -}}">{%- endif -%}
     <link rel="icon" type="image/x-icon" href="{{- site.favicon | default:'/assets/favicon.ico' -}}">
 
+    <link rel="alternate" type="application/atom+xml" href="{{- '/feed.xml' | relative_url -}}" title="Atom Feed">
+
     <title>{{- html_title -}}</title>
-    
+
+    {%- seo title=false -%}
+
     <script type="text/javascript" >
       window.databookConfig = {
-        siteTitle: "{{- site.title -}}",
+        siteTitle: "{{- site_title -}}",
         siteBaseurl: "{{- site.baseurl -}}",
         siteUrl: "{{- site.url -}}",
         titleSeparater: "{{- site.title_separator -}}",

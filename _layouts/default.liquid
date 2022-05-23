@@ -19,8 +19,9 @@
 {%- endif -%}
 
 {%- comment -%}lang{%- endcomment -%}
-{%- if site.language -%}
-  {%- assign html_attr = html_attr | append: " lang='" | append: site.language | append: "'" -%}
+{%- assign lang = page.lang | default: site.lang -%}
+{%- if lang -%}
+  {%- assign html_attr = html_attr | append: " lang='" | append: lang | append: "'" -%}
 {%- endif -%}
 
 {%- comment -%}html_style{%- endcomment -%}
