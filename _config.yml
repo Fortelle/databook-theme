@@ -19,7 +19,6 @@ baseurl:        #
 encoding:       "utf-8"
 lang:           "en-US"
 npm_cdn:        "https://cdn.jsdelivr.net/npm/"
-repository:     "Fortelle/databook-theme"
 title_separator: "|"
 timezone:       #
 url:            #
@@ -37,6 +36,7 @@ footer:         #
 search:         false # "title", "content", "google", "bing", "custom"
 analytics:      false # "google_analytics", "custom"
 comments:       false # "disqus", "gitalk", "custom"
+source_link:    true
 
 ##
 ## Blog settings
@@ -93,6 +93,7 @@ defaults:
     scope:
       type: "posts"
     values:
+      layout: post
       permalink: "/:categories/:title:output_ext"
 
 
