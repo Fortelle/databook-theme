@@ -4,15 +4,9 @@ set -e
 ################
 ################
 
-release_branch=$(git branch --show-current)
-version=$(git describe --tags)
-
-################
-################
-
-if ! [[ $release_branch =~ ^release\/* ]]
+if [ "$(git branch --show-current)" != "develop" ]
 then
-  echo "Error: The current branch is not release branch."
+  echo "Error: The current branch is not 'develop'."
   exit 1
 fi
 
@@ -22,12 +16,17 @@ then
   exit 1
 fi
 
+if ! ( bundle exec jekyll build --quiet )
+then
+  echo "Error: Failed to build the site."
+  exit 1
+fi
+
 ################
 ################
 
 git checkout master
-git merge $release_branch
+git merge develop
 git push origin master
 git push origin develop
-git push origin $version # triggers gem-push workflow
 git checkout develop

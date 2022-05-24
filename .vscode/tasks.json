@@ -33,6 +33,15 @@
               "command": "bash .scripts/publish.sh"
           },
           "problemMatcher": []
+      },
+      {
+          "label": "hotfix",
+          "type": "shell",
+          "command": "./.scripts/hotfix.sh",
+          "windows": {
+              "command": "bash .scripts/hotfix.sh"
+          },
+          "problemMatcher": []
       }
     ]
 }
