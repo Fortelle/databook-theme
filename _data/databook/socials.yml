@@ -1,0 +1,142 @@
+link:
+  icon:         "fas fa-link"
+  url:          ":value"
+  
+address:
+  icon:         "fas fa-map-signs"
+
+company:
+  icon:         "fas fa-building"
+
+location:
+  icon:         "fas fa-map-marker-alt"
+
+telephone:
+  icon:         "fas fa-phone"
+
+mobile:
+  icon:         "fas fa-mobile-alt"
+  
+email:
+  text:         "Email"
+  icon:         "fas fa-envelope"
+  url:          "mailto://:value"
+
+homepage:
+  text:         "Homepage"
+  icon:         "fas fa-home"
+  url:          ":value"
+
+rss:
+  icon:         "fas fa-rss"
+  url:          ":value"
+  color:        "orange"
+  text:         "Subscribe"
+
+blogger:
+  text:         "Blogger"
+  icon:         "fab fa-blogger"
+  url:          "https://:value.blogspot.com/"
+  color:        "#F57D00"
+
+facebook:
+  text:         "Facebook"
+  icon:         "fab fa-facebook"
+  url:          "https://www.facebook.com/:value"
+  color:        "#1877F2"
+
+flickr:
+  text:         "Flickr"
+  icon:         "fab fa-flickr"
+  url:          "https://www.flickr.com/photos/:value"
+  color:        "#FF0084"
+
+github:
+  text:         "GitHub"
+  icon:         "fab fa-github"
+  url:          "https://github.com/:value"
+  color:        "#333333"
+
+instagram:
+  text:         "Instagram"
+  icon:         "fab fa-instagram"
+  url:          "https://instagram.com/:value"
+  color:        "#E4405F"
+
+linkedin:
+  text:         "LinkedIn"
+  icon:         "fab fa-linkedin"
+  url:          "http://www.linkedin.com/in/:value"
+  color:        "#0A66C2"
+
+pinterest:
+  text:         "Pinterest"
+  icon:         "fab fa-pinterest"
+  url:          "https://pinterest.com/:value"
+  color:        "#E60023"
+
+qq:
+  text:         "QQ"
+  icon:         "fab fa-qq"
+  url:          "http://wpa.qq.com/msgrd?uin=:value"
+  color:        "#19A0E2"
+
+reddit:
+  text:         "Reddit"
+  icon:         "fab fa-reddit"
+  url:          "https://www.reddit.com/user/:value/"
+  color:        "#FF4500"
+
+reddit_community:
+  text:         "Reddit"
+  icon:         "fab fa-reddit"
+  url:          "https://www.reddit.com/r/:value/"
+  color:        "#FF4500"
+
+tiktok:
+  text:         "TikTok"
+  icon:         "fab fa-tiktok"
+  url:          "https://www.tiktok.com/@:value/"
+  color:        "#EE1D51"
+
+tumblr:
+  text:         "Tumblr"
+  icon:         "fab fa-tumblr"
+  url:          "https://:value.tumblr.com/"
+  color:        "#001935"
+
+twitch:
+  text:         "Twitch"
+  icon:         "fab fa-twitch"
+  url:          "https://www.twitch.tv/:value"
+  color:        "#9146FF"
+
+twitter:
+  text:         "Twitter"
+  icon:         "fab fa-twitter"
+  url:          "https://twitter.com/:value"
+  color:        "#1DA1F2"
+
+vk:
+  text:         "VK"
+  icon:         "fab fa-vk"
+  url:          "https://vk.com/:value"
+  color:        "#2787F5"
+  
+weibo:
+  text:         "Weibo"
+  icon:         "fab fa-weibo"
+  url:          "https://www.weibo.com/u/:value/"
+  color:        "#E6162D"
+
+wordpress:
+  text:         "WordPress"
+  icon:         "fab fa-wordpress"
+  url:          "https://:value.wordpress.com/"
+  color:        "#0073AA"
+
+youtube:
+  text:         "Youtube"
+  icon:         "fab fa-youtube"
+  url:          "https://youtube.com/:value"
+  color:        "#FF0000"
