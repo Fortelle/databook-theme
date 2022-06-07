@@ -40,7 +40,7 @@ pages:
     width: calc(var(--canvas-width) * (40 / 1280 * 2 + 1));
     height: calc(var(--canvas-height) * (40 / 640 * 2 + 1));
     overflow: hidden;
-    border: 1px solid #aaa;
+    outline: 1px solid #aaa;
     display: flex;
     flex-direction: row;
 
