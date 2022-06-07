@@ -1,10 +1,13 @@
 {%- assign pageitem = include.page | default: page -%}
-
+{%- assign page_date = nil -%}
+{%- if pageitem.date != site.time -%}
+  {%- assign page_date = pageitem.date -%}
+{%- endif -%}
 
 <div class="c-meta">
 
-  {%- if pageitem.date or pageitem.last_modified_at -%}
-    {%- assign display_date = pageitem.last_modified_at | default: pageitem.date -%}
+  {%- if page_date or pageitem.last_modified_at -%}
+    {%- assign display_date = pageitem.last_modified_at | default: page_date -%}
     {%- assign year1 = site.time | date: "%Y" -%}
     {%- assign year2 = display_date | date: "%Y" -%}
     {%- capture full_date_format -%}{%- include localize key="date_format_long" default="%b %d, %Y %H:%M" -%}{%- endcapture -%}
@@ -13,20 +16,30 @@
     {%- else -%}
       {%- assign display_date_format = full_date_format -%}
     {%- endif -%}
-    {%- assign publish_date = pageitem.date | date: full_date_format -%}
     
     {%- if pageitem.last_modified_at -%}
       {%- assign modified_date = pageitem.last_modified_at | date: full_date_format -%}
-      {%- capture date_published_tooltip -%}{%- include localize key="date_published_tooltip" default="Published: :param1" param1=publish_date -%}{%- endcapture -%}
-      {%- capture date_modified_tooltip -%}{%- include localize key="date_modified_tooltip" default="Modified: :param1" param1=modified_date -%}{%- endcapture -%}
+      {%- assign tooltip = "" -%}
+      {%- if page_date -%}
+        {%- capture tooltip -%}
+          {%- include localize key="date_published_tooltip" default="Published: :param1" param1=publish_date -%}
+          &#10;
+        {%- endcapture -%}
+      {%- endif -%}
+      {%- capture tooltip -%}
+        {{- tooltip -}}
+        {%- include localize key="date_modified_tooltip" default="Modified: :param1" param1=modified_date -%}
+      {%- endcapture -%}
+      {%- capture date_modified_tooltip -%}{%- endcapture -%}
       {%- capture date_modified_info -%}{%- include localize key="date_modified_info" default="(Modified)" -%}{%- endcapture -%}
-      <time class="c-meta__item c-meta__item--time" datetime="{{- pageitem.last_modified_at | date_to_xmlschema -}}" title="{{- date_published_tooltip -}}&#10;{{- date_modified_tooltip -}}">
+      <time class="c-meta__item c-meta__item--time" datetime="{{- pageitem.last_modified_at | date_to_xmlschema -}}" title="{{- tooltip -}}">
         {{- pageitem.last_modified_at | date: display_date_format }}<small>{{- date_modified_info -}}</small>
       </time>
-    {%- else -%}
+    {%- elsif page_date -%}
+      {%- assign publish_date = page_date | date: full_date_format -%}
       {%- capture date_published_tooltip -%}{%- include localize key="date_published_tooltip" default="Published: :param1" param1=publish_date -%}{%- endcapture -%}
-      <time class="c-meta__item c-meta__item--time" datetime="{{- pageitem.date | date_to_xmlschema -}}" title="{{- date_published_tooltip -}}">
-        {{- pageitem.date | date: display_date_format -}}
+      <time class="c-meta__item c-meta__item--time" datetime="{{- page_date | date_to_xmlschema -}}" title="{{- date_published_tooltip -}}">
+        {{- page_date | date: display_date_format -}}
       </time>
     {%- endif -%}
   {%- endif -%}
