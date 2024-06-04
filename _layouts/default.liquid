@@ -6,13 +6,13 @@
   {%- assign html_class = html_class | append: " is-debug" -%}
 {%- endif -%}
 {%- if site.class %} 
-  {%- assign html_class = html_class | append: site.class -%}
+  {%- assign html_class = html_class | append: " " | append: site.class -%}
 {%- endif -%}
 {%- if layout.class %} 
-  {%- assign html_class = html_class | append: layout.class -%}
+  {%- assign html_class = html_class | append: " " | append: layout.class -%}
 {%- endif -%}
 {%- if page.class %} 
-  {%- assign html_class = html_class | append: page.class -%}
+  {%- assign html_class = html_class | append: " " | append: page.class -%}
 {%- endif -%}
 {%- if html_class.size > 0 -%}
   {%- assign html_attr = html_attr | append: " class='" | append: html_class | append: "'" -%}
