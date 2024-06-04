@@ -1,0 +1,51 @@
+{%- assign linkinbio_data = include.data -%}
+
+{%- if linkinbio_data -%}
+  <div class="c-linkinbio">
+    {%- for item in linkinbio_data.items -%}
+
+      {%- if item.header -%}
+        <div class="c-linkinbio__header">
+          {{- item.header -}}
+        </div>
+      {%- elsif item.url or item.name -%}
+        {%- assign social = site.data.socials.[item.name] | default: site.data.databook.socials.[item.name] | default: item -%}
+        {%- assign text = item.text | default: social.text | default: item.value -%}
+        {%- assign url = item.url | default: social.url | replace: ":value", item.value | default: false -%}
+        {%- assign icon = item.icon | default: social.icon | default: false -%}
+        {%- assign item_size = item.itemsize | default: linkinbio_data.itemsize | default: "medium" -%}
+        {%- assign openinnew = item.openinnew | default: linkinbio_data.openinnew | default: false -%}
+        {%- case item_size -%}
+          {%- when "small" -%}
+            {%- assign item_size = "36px" -%}
+          {%- when "medium" -%}
+            {%- assign item_size = "48px" -%}
+          {%- when "large" -%}
+            {%- assign item_size = "60px" -%}
+        {%- endcase -%}
+
+        <div class="c-linkinbio__item" style="height: {{item_size}};">
+          <a class="c-linkinbio__link" href="{{ url }}" {%- if openinnew %} target="_blank"{%- endif -%}>
+            {%- if icon -%}
+              <div class="c-linkinbio__icon">{%- include functions/get_icon.liquid icon=icon -%}</div>
+            {%- endif -%}
+            <span class="c-linkinbio__label">
+              {{- text -}}
+            </span>
+            {%- if item.badge -%}
+              <div class="c-linkinbio__badge">{%- include functions/get_icon.liquid icon=item.badge -%}</div>
+            {%- elsif item.comment -%}
+              <span class="c-linkinbio__comment">
+                {{- item.comment -}}
+              </span>
+            {%- endif -%}
+          </a>
+        </div>
+      {%- elsif item.text -%}
+        <div class="c-linkinbio__text">
+          {{- item.text -}}
+        </div>
+      {%- endif -%}
+    {%- endfor -%}
+  </div>
+{%- endif -%}

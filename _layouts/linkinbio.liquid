@@ -1,0 +1,10 @@
+---
+layout: default
+---
+
+{%- include functions/get_config_data.liquid key="linkinbio" -%}
+{%- assign linkinbio_data = return | default: nil -%}
+
+{%- if linkinbio_data -%}
+  {%- include components/linkinbio.liquid data=linkinbio_data -%}
+{%- endif -%}

@@ -1,0 +1,114 @@
+.c-linkinbio {
+  margin: 1rem auto;
+  user-select: none;
+  width: 100%;
+
+  @media #{$medium-screen} {
+    width: 80%;
+  }
+
+  @media #{$large-screen} {
+    width: 60%;
+  }
+
+  &__item {
+    background-color: var(--db-surface-color);
+    border: 1px solid var(--db-border-color);
+    border-radius: $border-radius-round;
+    color: var(--db-text-color-active);
+    margin: $spacing-object;
+    text-align: center;
+    overflow: hidden;
+    
+    &:hover {
+      background-color: var(--db-surface-hover-color);
+      box-shadow: 0 0 .25rem var(--db-surface-shadow-color);
+      text-decoration: none !important;
+    }
+  }
+
+  &__link {
+    color: inherit;
+    display: block;
+    text-decoration: none;
+    text-overflow: ellipsis;
+    height: 100%;
+    width: 100%;
+    position: relative;
+  }
+
+  %icon {
+    align-items: center;
+    aspect-ratio: 2 / 1;
+    display: flex;
+    font-size: 24px;
+    height: 100%;
+    margin: 0;
+    position: absolute;
+  }
+
+  %placeholder {
+    content: '';
+    height: 100%;
+    width: 25%;
+  }
+
+  &__icon {
+    @extend %icon;
+    justify-content: left;
+    left: 0;
+
+    &::before {
+      @extend %placeholder;
+    }
+  }
+
+  &__badge {
+    @extend %icon;
+    justify-content: right;
+    right: 0;
+
+    &::after {
+      @extend %placeholder;
+    }
+  }
+
+  &__label {
+    font-weight: bold;
+    letter-spacing: 1px;
+    
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  &__comment {
+    color: var(--db-text-color-inactive);
+    font-size: xx-small;
+
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    transform: translate(-50%, -50%);
+  }
+
+  &__header {
+    color: var(--db-text-color-inactive);
+    margin-bottom: $spacing-object;
+    text-align: center;
+    width: 100%;
+
+    &:not(:first-child) {
+      margin-top: $spacing-unit;
+    }
+  }
+
+  &__text {
+    color: var(--db-text-color-inactive);
+    text-align: center;
+    margin: $spacing-object 0;
+    width: 100%;
+  }
+
+}
