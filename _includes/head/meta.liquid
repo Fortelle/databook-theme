@@ -40,6 +40,8 @@
         generatedDate: "{{- site.time | date_to_xmlschema -}}",
         pageTitle: "{{- page_title -}}",
         pageLayout: "{{- page.layout -}}",
+        {%- if site.npm_cdn -%}npm_cdn: "{{- site.npm_cdn -}}",{%- endif -%}
+        {%- if site.github_cdn -%}github_cdn: "{{- site.github_cdn -}}",{%- endif -%}
         {%- if page.scrollspy or layout.scrollspy or site.scrollspy -%}scrollspy: true,{%- endif -%}
         {%- if page.chartjs or layout.chartjs or site.chartjs -%}chartjs: true,{%- endif -%}
         {%- if page.mathjax or layout.mathjax or site.mathjax -%}mathjax: true,{%- endif -%}

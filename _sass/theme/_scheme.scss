@@ -29,8 +29,8 @@
   --db-text-color-inactive: hsl(var(--db-accent-color-h), calc(var(--db-accent-color-s) * .66), 40%);
   --db-text-color-disabled: hsl(var(--db-accent-color-h), calc(var(--db-accent-color-s) * .33), 60%);
 
-  --db-highlight-color: hsla(var(--db-accent-color-h), var(--db-accent-color-s), 50%, 15%);
-  --db-highlight-color-hover: hsla(var(--db-accent-color-h), var(--db-accent-color-s), 50%, 20%);
+  --db-highlight-color: hsla(var(--db-accent-color-h), var(--db-accent-color-s), 50%, 10%);
+  --db-highlight-color-hover: hsla(var(--db-accent-color-h), var(--db-accent-color-s), 50%, 15%);
 }
 
 @mixin scheme-dark {

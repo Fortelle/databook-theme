@@ -1,5 +1,6 @@
 .l-typography {
-  --db-cell-padding: .6rem .8rem;
+  --db-cell-padding-topbottom: .6rem;
+  --db-cell-padding-leftright: .8rem;
   --db-cell-bold-border: 2px;
   --db-cell-border-row: var(--db-border-color);
   --db-cell-border-column: var(--db-border-color);
@@ -13,36 +14,23 @@
     margin-bottom: 1rem;
     overflow: hidden;
     width: 100%;
-  
-    th, td {
-      padding: var(--db-cell-padding);
+
+    th,
+    td {
+      padding: var(--db-cell-padding-topbottom) var(--db-cell-padding-leftright);
       border-bottom: 1px solid var(--db-cell-border-row);
       border-right: 1px solid var(--db-cell-border-column);
     }
-  
-    > *:last-child > tr:last-child > * {
+
+    >*:last-child>tr:last-child>* {
       border-bottom: none;
     }
-  
-    > * > tr > *:last-child {
+
+    >*>tr>*:last-child {
       border-right: none;
     }
 
-    > *:not(:last-child) > tr:last-child {
-      position : relative;
-
-      &::after {
-        content: '';
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        height: 0;
-        width: 100%;
-        border-bottom: var(--db-cell-bold-border) solid var(--db-border-color);
-      }
-    }
-    
-    + .h-table--combined {
+    +.h-table--combined {
       margin-top: calc(-1rem - 1px) !important;
       border-top: none !important;
       border-top-left-radius: 0 !important;
@@ -53,11 +41,13 @@
 }
 
 .h-table--small {
-  --db-cell-padding: .2rem .4rem;
-  font-size: 90%;
+  --db-cell-padding-topbottom: .2rem;
+  --db-cell-padding-leftright: .4rem;
+  font-size: small;
 }
 
 .h-table--row {
+  --db-cell-padding-leftright: 0;
   --db-cell-border-column: transparent;
 }
 
@@ -72,22 +62,23 @@
 }
 
 .h-table--striped {
-  > tbody:first-child > tr:nth-child(even),
-  > tbody:not(:first-child) > tr:nth-child(odd) {
-  background-color: var(--db-highlight-color-hover);
+
+  >tbody:first-child>tr:nth-child(even),
+  >tbody:not(:first-child)>tr:nth-child(odd) {
+    background-color: var(--db-highlight-color);
   }
 }
 
-.h-table--hover:not(.h-table--striped) {
-  > tbody > tr:hover {
+.h-table--hover {
+  >tbody>tr:hover {
     background-color: var(--db-highlight-color-hover);
   }
 }
 
 .h-table--hover.h-table--column {
+
   // todo
-  td:hover {
-  }
+  td:hover {}
 }
 
 .h-table--left {
