@@ -18,3 +18,5 @@ document.addEventListener("DOMContentLoaded", () => {
   databook.event.dispatchEvent(new CustomEvent("loaded"));
   window.dispatchEvent(new CustomEvent("databookloaded"));
 });
+
+export default databook;

@@ -1,6 +1,7 @@
 .l-typography {
   --db-cell-padding-topbottom: .6rem;
   --db-cell-padding-leftright: .8rem;
+  --db-row-padding-leftright: .8rem;
   --db-cell-bold-border: 2px;
   --db-cell-border-row: var(--db-border-color);
   --db-cell-border-column: var(--db-border-color);
@@ -20,6 +21,15 @@
       padding: var(--db-cell-padding-topbottom) var(--db-cell-padding-leftright);
       border-bottom: 1px solid var(--db-cell-border-row);
       border-right: 1px solid var(--db-cell-border-column);
+
+      &:first-child {
+        padding-left: var(--db-row-padding-leftright);
+      }
+      
+
+      &:last-child {
+        padding-right: var(--db-row-padding-leftright);
+      }
     }
 
     >*:last-child>tr:last-child>* {
@@ -43,11 +53,12 @@
 .h-table--small {
   --db-cell-padding-topbottom: .2rem;
   --db-cell-padding-leftright: .4rem;
+  --db-row-padding-leftright: .4rem;
   font-size: small;
 }
 
 .h-table--row {
-  --db-cell-padding-leftright: 0;
+  --db-cell-padding-leftright: .1rem;
   --db-cell-border-column: transparent;
 }
 

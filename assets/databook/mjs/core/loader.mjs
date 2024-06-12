@@ -32,6 +32,21 @@ const getModules = async function (urlList) {
   return await Promise.all(urlList.map(getModule));
 }
 
+const getExtension = async function (name) {
+  if (name in databook) {
+    return databook[name];
+  }
+
+  let url = `/assets/databook/mjs/extensions/${name}.mjs`;
+  let extension = (await import(url)).default;
+  databook[name] = extension;
+  return extension;
+}
+
+const getExtensions = async function (names) {
+  return await Promise.all(names.map(getExtension));
+}
+
 const getCSS = async function (urlList) {
   if (typeof urlList === 'string') {
     urlList = [urlList];
@@ -52,5 +67,7 @@ export default {
   getScripts,
   getModule,
   getModules,
+  getExtension,
+  getExtensions,
   getCSS,
 }

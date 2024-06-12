@@ -57,8 +57,16 @@ const load = async function (path, loading = false) {
   };
 
   try {
+
+    let pageData = {
+      title: articleModule.title,
+    };
+
     if (articleModule.init) {
-      await articleModule.init();
+      let initData = await articleModule.init();
+      if (!!initData) {
+        Object.assign(pageData, initData);
+      }
     }
 
     breadcrumb.clear();
@@ -70,9 +78,6 @@ const load = async function (path, loading = false) {
       "url": '#!/' + articlePath
     });
 
-    let pageData = {
-      title: articleModule.title,
-    };
     update(pageData, true);
 
     if (articleModule.form) {
@@ -95,20 +100,21 @@ const load = async function (path, loading = false) {
 const change = async function (query) {
   if (!articleModule) return;
 
-  let content = articleModule.content;
-  let isAsync = content.constructor.name === "AsyncFunction";
+  let content = articleModule.change ?? articleModule.content;
+  let isAsync = content?.constructor?.name === "AsyncFunction";
   if (isAsync) {
     beginUpdate();
   }
 
   try {
     if (content instanceof Function) {
-      content = await content(query);
+      content = await content(query ?? {});
     }
 
-    if (typeof content === 'string') {
-      document.querySelector('.l-page__content').innerHTML = content;
-    } else {
+    if (content === true) {
+      update({});
+    } else if (content === false || content === null || content === undefined) {
+    } else if (typeof content === 'object') {
       let titles = breadcrumb.data.map(x => x.text);
       if (content.subtitle) {
         titles.push(content.subtitle);
@@ -118,6 +124,8 @@ const change = async function (query) {
       content.title = content.displaytitle ?? content.subtitle ?? articleModule.title;
 
       update(content);
+    } else {
+      update({ content });
     }
     form.setValue(query);
   } catch (error) {
@@ -198,21 +206,16 @@ const update = function (info, clear = false) {
     }
   }
 
-  databook.event.dispatchEvent(new CustomEvent("articleupdated"));
-}
-
-function reselectTabs() {
-  let tabs = document.querySelectorAll('.c-tabs--keepselected');
-  let tabdata = {};
-  if (tabs.length > 0) {
-    for (let tab of tabs) {
-      let inputs = tab.querySelectorAll(':scope > .c-tabs__input');
-      let selectedIndex = [...inputs].findIndex(x => x.matches(input[checked]));
-      if (selectedIndex > -1) {
-        tabdata[tab.id] = selectedIndex;
+  if (info.events?.length > 0) {
+    for (let eventItem of info.events) {
+      let targets = document.querySelectorAll('.l-page__content ' + eventItem.target);
+      for (let element of targets) {
+        element.addEventListener(eventItem.type, eventItem.listener, eventItem.options);
       }
     }
   }
+
+  databook.event.dispatchEvent(new CustomEvent("articleupdated"));
 }
 
 const form = {

@@ -30,42 +30,53 @@ const componentBuilders = {
       footHtml = '',
       colHtml = '';
 
-    let tableClass = config.class ?? '';
+    let tableClass = 'h-table';
     let tableAttr = config.attr ?? '';
     let tableStyle = config.style ?? '';
 
+    if (config.class) tableClass += ` ${config.class}`;
     if (config.striped) tableClass += ' h-table--striped';
     if (config.hover) tableClass += ' h-table--hover';
     if (config.small) tableClass += ' h-table--small';
     if (config.sortable) tableClass += ' sortable';
-    if (config.sortlist) tableAttr += ` data-sortlist="[${config.sortlist}]"`;
     if (config.id) tableAttr += ` id="${config.id}"`;
     if (config.align) tableStyle += ` text-align:${config.align}`;
-
+    if (config.dataset) Object.entries(config.dataset).forEach(([key, value]) => tableAttr += ` data-${key}="${value}"`);
+    if (config.pagination) {
+      tableClass += ' paginateable';
+      tableAttr += ` data-pagination="${config.pagination}"`;
+    }
+    
     // captionHtml
     if (config.caption) {
       captionHtml = `<caption>${config.caption}</caption>`;
     }
 
-    // colHtml
     let columns = config.columns?.map(x => typeof x === "string" ? { text: x } : x) ?? [];
-    if (columns.length > 0) {
+
+    // colHtml
+    /*
+    if (columns.some(col => (col.span > 1) || (col.width > 0))) {
       colHtml += '<colgroup>';
       columns.forEach(col => {
-        colHtml += `<col span="${col.span || 1};"`;
+        colHtml += `<col span="${col.span || 1}"`;
         if (col.width) colHtml += ` style="width:${col.width};"`;
         colHtml += ` />`;
       });
       colHtml += '</colgroup>';
     }
+    */
 
     // headHtml
     if (columns.some(x => !!x.text)) {
       headHtml += '<thead><tr>';
       columns.forEach(col => {
         headHtml += '<th';
+        if (col.id) headHtml += ` id="${col.id}"`;
+        if (col.class) headHtml += ` class="${col.class}"`;
         if (col.span) headHtml += ` colspan="${col.span};"`;
         if (col.width) headHtml += ` style="width:${col.width};"`;
+        if (col.dataset) Object.entries(col.dataset).forEach(([key, value]) => headHtml += ` data-${key}="${value}"`);
         headHtml += `>${col.text}</th>`;
       });
       headHtml += '</tr></thead>';
@@ -77,17 +88,37 @@ const componentBuilders = {
     bodies.map(body => {
       if (body.length == 0) return true;
       bodyHtml += '<tbody>';
-      body.map(tr => {
-        bodyHtml += '<tr>';
-        tr.map((cell, col) => {
-          let tagname = columns[col]?.isHead ? 'th' : 'td';
-          bodyHtml += `<${tagname}`;
-          if (columns[col] && columns[col]["class"]) bodyHtml += ` class="${columns[col]['class']}"`;
-          let style = '';
-          if (columns[col]?.align) style += ` text-align:${columns[col].align}`;
-          if (columns[col]?.style) style += ` ${columns[col].style}`;
-          if (style) bodyHtml += ` style="${style}"`;
-          bodyHtml += `>${cell}</${tagname}>`;
+      body.map((row, rowindex) => {
+        bodyHtml += '<tr';
+        if (config.pagination > 0 && rowindex >= config.pagination) {
+          bodyHtml += ' hidden';
+        }
+        bodyHtml += '>';
+        row.map((cell, colindex) => {
+          if (typeof cell !== "object") cell = { text: cell };
+          let column = columns[colindex] ?? {};
+
+          let cellTag = (column.isHeadColumn || cell.isHead) ? 'th' : 'td';
+          let cellId = cell.id;
+
+          let cellClass = '';
+          if (column.cellClass) cellClass += ' ' + column.cellClass;
+          if (cell.class) cellClass += ' ' + cell.class;
+          cellClass = cellClass.trim();
+
+          let cellStyle = '';
+          if (column.cellAlign) style += ` text-align:${column.cellAlign}`;
+          if (cell.align) style += ` text-align:${cell.align}`;
+          if (column.cellStyle) style += ' ' + column.cellStyle;
+          if (cell.style) style += ' ' + cell.style;
+          cellStyle = cellStyle.trim();
+
+          bodyHtml += `<${cellTag}`;
+          if (cellId) bodyHtml += ` id="${cellId}"`;
+          if (cellClass) bodyHtml += ` class="${cellClass}"`;
+          if (cellStyle) bodyHtml += ` style="${cellStyle}"`;
+          if (cell.dataset) Object.entries(cell.dataset).forEach(([key, value]) => bodyHtml += ` data-${key}="${value}"`);
+          bodyHtml += `>${cell.text}</${cellTag}>`;
         });
         bodyHtml += '</tr>';
       });
@@ -123,8 +154,8 @@ const componentBuilders = {
     config.striped ??= true;
     config.body = config.list.filter(x => x !== null);
     config.align ??= 'center';
-    config["class"] ??= "";
-    config["class"] += "h-table--row";
+    config.class ??= "";
+    config.class += "h-table--row";
 
     let html = create('table', config);
     return html;
