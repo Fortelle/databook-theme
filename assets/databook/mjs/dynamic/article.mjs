@@ -322,6 +322,12 @@ databook.event.addEventListener("articleupdated", async () => {
     let tablesorter = await databook.loader.getExtension('tablesorter');
     tablesorter.apply(sortable);
   }
+
+  let paginateable = document.querySelectorAll('.l-page__content table.paginateable:not(.js-tablepaginator)');
+  if (paginateable.length > 0) {
+    let tablepaginator = await databook.loader.getExtension('tablepaginator');
+    tablepaginator.apply(paginateable);
+  }
 });
 
 export default {
