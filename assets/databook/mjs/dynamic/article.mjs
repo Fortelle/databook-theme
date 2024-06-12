@@ -316,6 +316,14 @@ const breadcrumb = {
   },
 }
 
+databook.event.addEventListener("articleupdated", async () => {
+  let sortable = document.querySelectorAll('.l-page__content table.sortable:not(.js-tablesorter)');
+  if (sortable.length > 0) {
+    let tablesorter = await databook.loader.getExtension('tablesorter');
+    tablesorter.apply(sortable);
+  }
+});
+
 export default {
   load,
   change,

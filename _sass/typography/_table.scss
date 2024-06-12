@@ -119,3 +119,58 @@
 .h-table--bottom td {
   vertical-align: bottom;
 }
+
+
+
+.js-tablesorter-header {
+  cursor: pointer;
+  position: relative;
+  $triangle-height: 1.732 / 2 * 50%;
+  $inactive-color: #00000033;
+  $active-color: var(--db-text-color-active);
+  background-position: right;
+  background-size: .5em 1em;
+  background-repeat: no-repeat;
+  padding-right: 1em !important;
+
+  &::after {
+    --top-color: #{$inactive-color};
+    --bottom-color: #{$inactive-color};
+
+    background: linear-gradient(180deg, var(--top-color) 50%,  var(--bottom-color) 50%);
+    clip-path: polygon(
+      0% #{$triangle-height},
+      50% 0%,
+      100% #{$triangle-height},
+      0% #{$triangle-height},
+
+      0% #{100% - $triangle-height},
+      100% #{100% - $triangle-height},
+      50% 100%,
+      0% #{100% - $triangle-height}
+      );
+    content: '';
+    display: block;
+    float: right;
+    height: 1em;
+    margin-right: .25em;
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: .5em;
+  }
+
+  &-up {
+    &::after {
+      --top-color: #{$active-color};
+    }
+  }
+
+  &-down {
+    &::after {
+      --bottom-color: #{$active-color};
+    }
+  }
+}
+
