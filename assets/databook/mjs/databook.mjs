@@ -1,6 +1,7 @@
 import component from './core/component.mjs';
 import config from './core/config.mjs';
 import loader from './core/loader.mjs';
+import localStorage from './core/localstorage.mjs';
 import util from './core/util.mjs';
 
 const databook = window.databook = {
@@ -8,6 +9,7 @@ const databook = window.databook = {
   config,
   event: new EventTarget(),
   loader,
+  localStorage,
   util,
 };
 
