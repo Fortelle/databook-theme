@@ -1,19 +1,18 @@
 ﻿const get = function (key, def) {
   key = key.toLowerCase();
-  if (localStorage.hasOwnProperty(key)) {
+  if (Object.hasOwn(localStorage, key)) {
     try {
-      let value = localStorage.getItem(key);
-      let obj = JSON.parse(value);
+      const value = localStorage.getItem(key);
+      const obj = JSON.parse(value);
       return obj;
-    } catch (error) {
-    }
+    } catch {}
   }
   return def;
 };
 
 const getAs = function (key, type) {
-  let obj = get(key);
-  let cls = new type();
+  const obj = get(key);
+  const cls = new type();
   if (obj) {
     Object.assign(cls, obj);
   }
@@ -22,18 +21,18 @@ const getAs = function (key, type) {
 
 const set = function (key, value) {
   key = key.toLowerCase();
-  let text = JSON.stringify(value);
+  const text = JSON.stringify(value);
   localStorage.setItem(key, text);
-}
+};
 
 const remove = function (key) {
   key = key.toLowerCase();
   localStorage.removeItem(key);
-}
+};
 
 export default {
   get,
   getAs,
   set,
   remove,
-}
+};

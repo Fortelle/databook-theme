@@ -1,4 +1,4 @@
-let sheet;
+﻿let sheet;
 
 function addCSS(rule) {
   if (!sheet) {
@@ -8,12 +8,14 @@ function addCSS(rule) {
   sheet.textContent += rule;
 }
 
-const parseHTML = function (str) {
+function parseHTML(str) {
   if (!str) {
     return null;
   }
-  var tmp = document.createElement(null);
+  const tmp = document.createElement(null);
   tmp.innerHTML = str;
+  return tmp.childNodes;
+};
 
 function showToast(data) {
   if (typeof data === 'string') {

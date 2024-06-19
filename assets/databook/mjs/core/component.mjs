@@ -27,8 +27,7 @@ const componentBuilders = {
     let captionHtml = '',
       headHtml = '',
       bodyHtml = '',
-      footHtml = '',
-      colHtml = '';
+      footHtml = '';
 
     let tableClass = 'h-table';
     let tableAttr = config.attr ?? '';
@@ -52,20 +51,7 @@ const componentBuilders = {
       captionHtml = `<caption>${config.caption}</caption>`;
     }
 
-    let columns = config.columns?.map(x => typeof x === "string" ? { text: x } : x) ?? [];
-
-    // colHtml
-    /*
-    if (columns.some(col => (col.span > 1) || (col.width > 0))) {
-      colHtml += '<colgroup>';
-      columns.forEach(col => {
-        colHtml += `<col span="${col.span || 1}"`;
-        if (col.width) colHtml += ` style="width:${col.width};"`;
-        colHtml += ` />`;
-      });
-      colHtml += '</colgroup>';
-    }
-    */
+    const columns = config.columns?.map(x => typeof x === "string" ? { text: x } : x) ?? [];
 
     // headHtml
     if (columns.some(x => !!x.text)) {
@@ -83,10 +69,10 @@ const componentBuilders = {
     }
 
     // bodyHtml
-    let bodies = config.bodies ?? [];
+    const bodies = config.bodies ?? [];
     if (config.body) bodies.push(config.body);
     bodies.map(body => {
-      if (body.length == 0) return true;
+      if (body.length === 0) return true;
       bodyHtml += '<tbody>';
       body.map((row, rowindex) => {
         bodyHtml += '<tr';
@@ -96,10 +82,10 @@ const componentBuilders = {
         bodyHtml += '>';
         row.map((cell, colindex) => {
           if (typeof cell !== "object") cell = { text: cell };
-          let column = columns[colindex] ?? {};
+          const column = columns[colindex] ?? {};
 
-          let cellTag = (column.isHeadColumn || cell.isHead) ? 'th' : 'td';
-          let cellId = cell.id;
+          const cellTag = (column.isHeadColumn || cell.isHead) ? 'th' : 'td';
+          const cellId = cell.id;
 
           let cellClass = '';
           if (column.cellClass) cellClass += ' ' + column.cellClass;
@@ -107,10 +93,11 @@ const componentBuilders = {
           cellClass = cellClass.trim();
 
           let cellStyle = '';
-          if (column.cellAlign) style += ` text-align:${column.cellAlign}`;
-          if (cell.align) style += ` text-align:${cell.align}`;
-          if (column.cellStyle) style += ' ' + column.cellStyle;
-          if (cell.style) style += ' ' + cell.style;
+          if (column.width && rowindex === 0) cellStyle += ` width:${column.width};`;
+          if (column.cellAlign) cellStyle += ` text-align:${column.cellAlign}`;
+          if (cell.align) cellStyle += ` text-align:${cell.align}`;
+          if (column.cellStyle) cellStyle += ' ' + column.cellStyle;
+          if (cell.style) cellStyle += ' ' + cell.style;
           cellStyle = cellStyle.trim();
 
           bodyHtml += `<${cellTag}`;
@@ -130,7 +117,7 @@ const componentBuilders = {
       footHtml += '<tfoot>';
       config.foot.map(tr => {
         footHtml += '<tr>';
-        tr.map((cell, col) => {
+        tr.map((cell) => {
           footHtml += `<td>${cell}</td>`;
         });
         footHtml += '</tr>';
@@ -138,9 +125,8 @@ const componentBuilders = {
       footHtml += '</tfoot>';
     }
 
-    let html = `<table class="${tableClass}" style="${tableStyle}" ${tableAttr}>
+    const html = `<table class="${tableClass}" style="${tableStyle}" ${tableAttr}>
       ${captionHtml}
-      ${colHtml}
       ${headHtml}
       ${bodyHtml}
       ${footHtml}
@@ -151,13 +137,12 @@ const componentBuilders = {
 
 
   'list': function (config) {
-    config.striped ??= true;
     config.body = config.list.filter(x => x !== null);
     config.align ??= 'center';
     config.class ??= "";
     config.class += "h-table--row";
 
-    let html = create('table', config);
+    const html = create('table', config);
     return html;
   },
 
@@ -177,19 +162,19 @@ const componentBuilders = {
     if (config.ignoreNull) {
       list = list.filter(x => (x[1] !== undefined) && (x[1] !== null) && (x[1] !== ""));
     }
-    let labelWidth = config.labelWidth ?? 100 * 0.6 / (0.6 + config.list[0].length - 1);
+    const labelWidth = config.labelWidth ?? 100 * 0.6 / (0.6 + config.list[0].length - 1);
     config.style = (config.style ?? "") + "table-layout:fixed;";
     config.body = list;
     config.columns = [
       {
         width: `${labelWidth}%;`,
-        isHead: true,
-        style: 'font-weight: bold; text-align: center;',
+        isHeadColumn: true,
+        cellStyle: 'font-weight: bold; text-align: center;',
       }
     ];
-    let tableHtml = create('table', config);
+    const tableHtml = create('table', config);
 
-    let html = `<div class="row">
+    const html = `<div class="row">
       <div class="col-12 col-lg-${12 - imageCol} order-lg-first">
         ${tableHtml}
       </div>
@@ -200,12 +185,12 @@ const componentBuilders = {
   },
 
   'tabs': function (config) {
-    let id = config.id || crypto.randomUUID();
+    const id = config.id || crypto.randomUUID();
     let selectedIndex = 0;
     let tabClass = 'c-tabs';
     let tabAttr = '';
     tabAttr += ` id="${id}"`;
-    if (!!config.keepSelected) {
+    if (config.keepSelected) {
       tabClass += ` c-tabs--keepselected`;
     }
 
@@ -214,7 +199,7 @@ const componentBuilders = {
       if (tab.selected) {
         selectedIndex = i;
       }
-      html += `<input class="c-tabs__input" name="${id}_inputs" id="${id}-${i}" type="radio" ${selectedIndex == i ? 'checked' : ''}>`;
+      html += `<input class="c-tabs__input" name="${id}_inputs" id="${id}-${i}" type="radio" ${selectedIndex === i ? 'checked' : ''}>`;
       html += `<label class="c-tabs__button" for="${id}-${i}">${tab.text}</label>`;
       html += `<div class="c-tabs__pane">${tab.content}</div>`;
     });
@@ -224,14 +209,14 @@ const componentBuilders = {
 
 
   'select': function (config) {
-    let className = "form-select o-select";
+    const className = "form-select o-select";
     let html = `<select class="${className}" name="${config.name}">`;
 
     if (Array.isArray(config.data)) {
       // [
       //   [key, value],
       // ]
-      for (let [key, value] of config.data) {
+      for (const [key, value] of config.data) {
         html += `<option value="${key}">${value}</option>`;
       }
     } else {
@@ -240,19 +225,19 @@ const componentBuilders = {
       //     [key, value],
       //   ],
       // }
-      for (let [label, data] of Object.entries(config.groups)) {
-        if (!!label) html += `<optgroup label="${label}">`;
-        for (let [key, value] of data) {
+      for (const [label, data] of Object.entries(config.groups)) {
+        if (label) html += `<optgroup label="${label}">`;
+        for (const [key, value] of data) {
           html += `<option value="${key}">${value}</option>`;
         }
-        if (!!label) html += `</optgroup>`;
+        if (label) html += `</optgroup>`;
       }
     }
     html += '</select>';
     return html;
   },
 
-}
+};
 
 const create = function (key, config) {
   if (typeof key == 'object') {
@@ -269,4 +254,4 @@ const create = function (key, config) {
 
 export default {
   create,
-}
+};

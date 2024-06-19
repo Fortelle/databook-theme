@@ -35,7 +35,7 @@ const onHashChange = async function (options) {
 const load = async function () {
   databook.dynamic = dynamic;
 
-  let configFile = await databook.loader.getJson('./config.json');
+  const configFile = await databook.loader.getJson('./config.json');
 
   dynamic.config = configFile;
 
