@@ -30,7 +30,7 @@
     }
   }
 
-  function render(item) {
+  async function render(item) {
     if (item.name == 'chart' && typeof Chart !== 'undefined') {
       renderChart(item);
     } else if (item.name == 'flowchart' && typeof flowchart !== 'undefined') {
@@ -40,7 +40,7 @@
     } else if ((item.name == 'mathjax' || item.name == 'math') && typeof MathJax !== 'undefined') {
       renderMathjax(item);
     } else if (item.name == 'mermaid' && typeof mermaid !== 'undefined') {
-      renderMermaid(item);
+      await renderMermaid(item);
     }
 
     if (item.error) {
@@ -102,9 +102,9 @@
     }
   }
 
-  function renderMermaid(item) {
+  async function renderMermaid(item) {
     try {
-      item.output.innerHTML = mermaid.render(item.id, item.text);
+      item.output.innerHTML = (await mermaid.render(item.id, item.text)).svg;
       item.success = true;
     } catch (error) {
       item.error = 'Invalid mermaid syntax.';
