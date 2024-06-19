@@ -174,6 +174,12 @@ function sort(table, options = {}) {
     tbody.replaceChildren(...rowData.map(x => x[0]));
   }
 
+  databook.event.dispatchEvent(new CustomEvent('tablesort', {
+    detail: {
+      table: table,
+      columns: columns.map(x => x.column),
+    }
+  }));
 }
 
 function onHeaderClick(event) {

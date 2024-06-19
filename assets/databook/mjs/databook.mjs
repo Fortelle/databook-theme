@@ -11,6 +11,28 @@ const databook = window.databook = {
   loader,
   localStorage,
   util,
+
+  get isDebug() {
+    return document.documentElement.classList.contains('is-debug');
+  },
+
+  set isDebug(bool) {
+    document.documentElement.classList.toggle('is-debug', bool);
+  },
+
+  debug(message, ...details) {
+    if (!this.isDebug) {
+      return;
+    }
+
+    util.showToast({
+      icon: 'flask',
+      text: message,
+      autoClose: 1000,
+    });
+
+    console.log(message, ...details);
+  },
 };
 
 document.addEventListener("DOMContentLoaded", () => {

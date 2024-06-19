@@ -179,25 +179,27 @@
   display: flex;
   justify-content: flex-end;
   user-select: none;
+  flex-wrap: wrap;
+  align-items: center;
 
   &__item {
     min-width: 2rem;
     border: 1px solid var(--db-border-color);
-    margin: 0;
+    margin: .2rem 0;
     text-align: center;
     overflow: hidden;
     line-height: 2rem;
     display: block;
 
     &:first-child {
-      border-radius: 0.2rem 0 0 0.2rem;
+      border-radius: $border-radius-object 0 0 $border-radius-object;
     }
     &:last-child {
-      border-radius: 0 0.2rem 0.2rem 0;
+      border-radius: 0 $border-radius-object $border-radius-object 0;
     }
     
     &:not(:first-child) {
-      border-left: none;
+      margin-left: -1px;
     }
 
     &.is-disabled,
@@ -214,8 +216,7 @@
   &::before {
     content: attr(data-text);
     display: block;
-    line-height: 2rem;
-    margin: 0 1rem;
+    margin: .2rem 1rem;
     white-space: nowrap;
   }
 }

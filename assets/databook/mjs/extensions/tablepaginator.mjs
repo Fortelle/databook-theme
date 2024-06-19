@@ -101,6 +101,27 @@ function toPage(table, page) {
   paginator.dataset['text'] = `${startIndex + 1} - ${endIndex + 1}`;
 }
 
+databook.event.addEventListener("tablesort", event => {
+  const table = event.detail.table;
+  if (!table.classList.contains('js-paginator')) {
+    return;
+  }
+  toPage(table, 0);
+});
+
+databook.event.addEventListener("tablerowchange", event => {
+  const table = event.detail.table;
+  if (!table.classList.contains('js-paginator')) {
+    return;
+  }
+  const paginator = table.nextElementSibling;
+  if (paginator?.classList.contains('c-table-pagination')) {
+    paginator.remove();
+  }
+
+  createPaginator(table);
+});
+
 export default {
   apply,
   toPage,
