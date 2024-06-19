@@ -1,66 +1,35 @@
 import sidebar from './sidebar.mjs';
-import hashlistener from './hashlistener.mjs';
+import router from './router.mjs';
 import article from './article.mjs';
-
-let oldPath;
-
-const onHashChange = async function (info) {
-  
-  dynamic.location = {
-    page: info.path,
-    query: info.query,
-  };
-
-  if (info.isChanged && info.isEmpty) {
-    window.location.reload();
-    return;
-  } else if (!info.isEmpty) {
-    if (oldPath != info.path) {
-      sidebar.activeItem('#!/' + info.path);
-      await article.load(info.path, true);
-      oldPath = info.path;
-    }
-    article.change(info.query);
-  }
-
-  if (!info.isHistory) {
-    window.scrollTo(0, 0);
-  }
-
-};
-
-const goto = function (data) {
-  let page = data.page ?? dynamic.location.page;
-  let hashString = `#!/${page}`;
-  if (!!data.query) {
-    let params = new URLSearchParams();
-    for (let [key, value] of Object.entries(data.query)) {
-      if (value === undefined || value === null  || value === "") {
-        continue;
-      } else if (value === true) {
-        params.set(key, 1);
-      } else if (value === false) {
-        params.set(key, 0);
-      } else {
-        params.set(key, value);
-      }
-    }
-    params.sort();
-    hashString += `?${params}`;
-  }
-
-  if (!data.path) {
-    window.location.hash = hashString;
-  }
-  else {
-    let href = data.path.replace(/\/+$/, '') + hashString;
-    window.location.href = href;
-  }
-};
 
 const dynamic = {
   article,
-  goto,
+  router,
+};
+
+const onHashChange = async function (options) {
+  const isEmpty = !options.location.page && (options.location.searchParams == null || options.location.searchParams.size === 0);
+  if (options.isEvent && isEmpty) {
+    window.location.reload();
+    return;
+  } else if (!isEmpty) {
+    if (options.isPageChanged && options.location.page) {
+      databook.debug('Page changed.', options);
+      sidebar.activeItem('#!/' + options.location.page);
+      const isSuccess = await article.load(options.location);
+      if (!isSuccess) {
+        return;
+      }
+    } else {
+      databook.debug('Params changed.', options);
+      article.change(options.location);
+    }
+  }
+
+  if (!options.isHistory) {
+    window.scrollTo(0, 0);
+  }
+
 };
 
 const load = async function () {
@@ -84,7 +53,7 @@ const load = async function () {
     sidebar.create(configFile.navigation);
   }
 
-  hashlistener.listen(onHashChange);
+  router.launch(onHashChange);
 
   databook.event.dispatchEvent(new CustomEvent("dynamicloaded"));
 };
