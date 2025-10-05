@@ -40,7 +40,7 @@
     {%- for item in sidebar_data.socials -%}
       {%- assign social = site.data.socials.[item.name] | default: site.data.databook.socials.[item.name] | default: site.data.databook.socials.link -%}
       {%- assign text = item.text | default: social.text | default: item.value -%}
-      {%- assign url = item.url | default: social.url | replace: ":value", item.value | default: false -%}
+      {%- assign url = item.rel_url | relative_url | default: item.url | default: social.url | replace: ":value", item.value | default: false -%}
       {%- assign icon = item.icon | default: social.icon | default: false -%}
       {%- include components/social_link.liquid url=url text=text icon=icon -%}
     {%- endfor -%}
@@ -51,14 +51,14 @@
     <div class="c-navlist">
       {%- for item in sidebar_data.links -%}
         {%- assign is_active = false -%}
-        {%- if item.url == page.url -%}
+        {%- if item.url == page.url or item.rel_url == page.url -%}
           {%- assign is_active = true -%}
         {%- elsif item.prefix -%}
           {%- assign prefix_checker = page.url | split: item.prefix -%}
           {%- if prefix_checker.size > 1 and prefix_checker[0].size == 0 and prefix_checker[1].size > 0 -%}{%- assign is_active = true -%}{%- endif -%}
         {%- endif -%}
         <div class="c-navlist__item {%- if is_active %} is-active{%- endif -%}">
-          <a class="c-navlist__link" href="{{ item.url }}">
+          <a class="c-navlist__link" href="{{ item.rel_url | relative_url | default: item.url }}">
             {{- item.text -}}
           </a>
         </div>
@@ -93,11 +93,11 @@
               {%- assign is_enabled = false -%}
             {%- endif -%}
             {%- assign icon = item.icon | default: group.item_icon -%}
-            <div class="c-navtree__item {%- if item.disabled %} is-disabled{%- elsif item.url == page.url %} is-active{%- endif -%} {%- if is_expanded %} is-expanded{%- endif -%}">
+            <div class="c-navtree__item {%- if item.disabled %} is-disabled{%- elsif item.url == page.url or item.rel_url == page.url %} is-active{%- endif -%} {%- if is_expanded %} is-expanded{%- endif -%}">
               {%- if item.disabled -%}
                 <a class="c-navtree__link"
-              {%- elsif item.url -%}
-                <a class="c-navtree__link" href="{{ item.url }}" {%- if item.external %} target="_blank"{%- endif -%}
+              {%- elsif item.url or item.rel_url -%}
+                <a class="c-navtree__link" href="{{ item.rel_url | relative_url | default: item.url }}" {%- if item.external %} target="_blank"{%- endif -%}
               {%- elsif item.onclick -%}
                 <a class="c-navtree__link" href="javascript:void(0);" onclick="{{ item.onclick }}"
               {%- elsif item.items -%}
@@ -116,7 +116,7 @@
               </a>
               {%- if item.button -%}
                 {%- if item.button.url -%}
-                  <a class="c-navtree__button" href="{{ item.button.url }}" {%- if item.button.external %} target="_blank"{%- endif -%}
+                  <a class="c-navtree__button" href="{{ item.button.url | relative_url }}" {%- if item.button.external %} target="_blank"{%- endif -%}
                 {%- elsif item.button.onclick -%}
                   <a class="c-navtree__button" href="javascript:void(0);" onclick="{{ item.button.onclick }}"
                 {%- else -%}
@@ -133,8 +133,8 @@
             <div class="c-navtree__list">
               {%- for subitem in item.items -%}
               <div class="c-navtree__item {%- if subitem.url == page.url %} is-active{%- endif -%}">
-                {%- if subitem.url -%}
-                  <a class="c-navtree__link" href="{{ subitem.url }}">
+                {%- if subitem.url or subitem.rel_url -%}
+                  <a class="c-navtree__link" href="{{ subitem.rel_url | relative_url | default: subitem.url }}">
                 {%- elsif subitem.onclick -%}
                   <a class="c-navtree__link" href="javascript:void(0);" onclick="{{ subitem.onclick }};document.activeElement.blur();">
                 {%- else -%}
@@ -159,11 +159,12 @@
         {%- if item.name -%}
           {%- assign social = site.data.socials.[item.name] | default: site.data.databook.socials.[item.name] | default: site.data.databook.socials.link -%}
           {%- assign text = item.text | default: social.text | default: item.value -%}
-          {%- assign url = item.url | default: social.url | replace: ":value", item.value | default: false -%}
+          {%- assign url = item.rel_url | relative_url | default: item.url | default: social.url | replace: ":value", item.value | default: false -%}
           {%- assign icon = item.icon | default: social.icon | default: false -%}
           {%- include components/social_button.liquid url=url text=text icon=icon -%}
         {%- else -%}
-          {%- include components/social_button.liquid url=item.url text=item.text icon=item.icon -%}
+          {%- assign url = item.rel_url | relative_url | default: item.url | default: false -%}
+          {%- include components/social_button.liquid url=url text=item.text icon=item.icon -%}
         {%- endif -%}
       {%- endfor -%}
     </div>

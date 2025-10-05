@@ -6,8 +6,8 @@
         <div class="c-navmenu__divider"></div>
       {%- else -%}
         <div class="c-navmenu__item">
-          {%- if item.url -%}
-            <a class="c-navmenu__text" href="{{- item.url | relative_url -}}">
+          {%- if item.url or item.rel_url-%}
+            <a class="c-navmenu__text" href="{{- item.rel_url | relative_url | default: item.url -}}">
               {%- if item.icon -%}{%- include functions/get_icon.liquid icon=item.icon -%}{%- endif -%}{{- item.text -}}
             </a>
           {%- elsif item.onclick -%}

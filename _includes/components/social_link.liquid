@@ -6,7 +6,7 @@
   </td>
   <td class="c-sociallist__text">
     {%- if include.url -%}
-      <a href="{{- include.url | relative_url -}}" target="_blank">{{- include.text -}}</a>
+      <a href="{{- include.url -}}" target="_blank">{{- include.text -}}</a>
     {%- else -%}
       {{- include.text -}}
     {%- endif -%}

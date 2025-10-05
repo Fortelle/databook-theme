@@ -1,4 +1,14 @@
-﻿const getAbsoluteUrl = function (url) {
+﻿import config from './config.mjs';
+
+const extensionPath = './assets/databook/mjs/extensions/{0}.mjs';
+
+const getSiteBasepath = function() {
+  const siteUrl = config.get('siteUrl');
+  const siteBaseurl = config.get('siteBaseurl') ?? '';
+  return new URL(siteBaseurl, siteUrl).href;
+};
+
+const getAbsoluteUrl = function (url) {
   if (url.startsWith(':npm_cdn')) {
     url = url.replace(':npm_cdn', databook.config.get('npm_cdn', ':npm_cdn'));
   }
@@ -39,8 +49,9 @@ const getExtension = async function (name) {
   if (name in databook) {
     return databook[name];
   }
-
-  const url = `/assets/databook/mjs/extensions/${name}.mjs`;
+  
+  const path = extensionPath.replace('{0}', name);
+  const url = new URL(path, getSiteBasepath()).href;
   const extension = (await import(url)).default;
   databook[name] = extension;
   return extension;
@@ -73,4 +84,5 @@ export default {
   getExtension,
   getExtensions,
   getCSS,
+  getSiteBasepath,
 };
