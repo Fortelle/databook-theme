@@ -117,6 +117,12 @@ twitter:
   url:          "https://twitter.com/:value"
   color:        "#1DA1F2"
 
+x:
+  text:         "X"
+  icon:         "fab fa-x-twitter"
+  url:          "https://x.com/:value"
+  color:        "#000000"
+
 vk:
   text:         "VK"
   icon:         "fab fa-vk"

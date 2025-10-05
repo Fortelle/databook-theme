@@ -20,8 +20,8 @@ sidebar:
       name:     "email"
       value:    "example@email.com"
     -
-      name:     "twitter"
-      value:    "twitter"
+      name:     "x"
+      value:    "x"
     -
       name:     "link"
       value:    "https://www.example.com"

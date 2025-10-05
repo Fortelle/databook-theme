@@ -13,8 +13,8 @@ sidebar:
       name:     "github"
       value:    "Fortelle/databook-theme"
     -
-      name:     "twitter"
-      value:    "twitter"
+      name:     "x"
+      value:    "x"
     -
       name:     "homepage"
       value:    "https://www.example.com"

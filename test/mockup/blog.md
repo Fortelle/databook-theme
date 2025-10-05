@@ -30,8 +30,8 @@ sidebar:
       name:     "github"
       value:    "Fortelle/databook-theme"
     -
-      name:     "twitter"
-      value:    "twitter"
+      name:     "x"
+      value:    "x"
     -
       name:     "email"
       value:    "example@email.com"
